@@ -18,6 +18,7 @@ int main()
 {
     const char* program_file_name = "program.asm";
     const char* code_file_name = "code.asm";
+
     FILE* fr = fopen(program_file_name, "r");
     FILE* fw = fopen(code_file_name, "w");
 
@@ -38,14 +39,17 @@ int main()
     Put_lineslen_for_all_lines(buffer, file_size, lineslen);
     Put_pointers_to_lines(buffer, file_size, str_num, lines);
 
-    printf("Reading complete\n");
     printf("%s\n", buffer);
 
     for (size_t i = 0; i < str_num; i++)
     {
-        char* word = lines[i];
-        printf("word init\n");
-        printf("%s\n", word);
+        char* word = (char*)calloc(lineslen[i] + 1, sizeof(char));
+
+        for (size_t j = 0; j < lineslen[i] + 1; j++)
+        {
+            word[j] = lines[i][j];
+        }
+
         if (strcmp(word, "push\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_PUSH);
@@ -73,10 +77,6 @@ int main()
         if (strcmp(word, "in\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_IN);
-        }
-        else
-        {
-            printf("ERROR\n\n");
         }
     }
 
@@ -161,8 +161,6 @@ void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t* lineslen
 void Put_pointers_to_lines(char* buffer, size_t file_size, size_t str_num, char** lines)
 {
     assert(buffer != NULL);
-
-    printf("Assertion complete\n");
 
     //lines = (char**)calloc(str_num + 1, sizeof(char*));
 

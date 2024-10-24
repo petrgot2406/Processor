@@ -1,4 +1,4 @@
 push
-pop
 push
-pop
+mul
+sub
