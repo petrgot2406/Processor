@@ -4,17 +4,17 @@ HEADERS = Constants.h Struct.h StackFunc.h StackUtils.h StackHash.h ReadFromFile
 
 WINFLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wno-missing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 
-XXX.exe: Compiler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
-	$(CC) Compiler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o XXX.exe
+Compiler.exe: MainCompiler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
+	$(CC) MainCompiler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Compiler.exe
 
-YYY.exe: Proc.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
-	$(CC) Proc.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o YYY.exe
+Processor.exe: MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
+	$(CC) MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Processor.exe
 
-Compiler.o: Compiler.cpp $(HEADERS)
-	$(CC) -c Compiler.cpp $(WINFLAGS)
+MainCompiler.o: MainCompiler.cpp $(HEADERS)
+	$(CC) -c MainCompiler.cpp $(WINFLAGS)
 
-Proc.o: Proc.cpp $(HEADERS)
-	$(CC) -c Proc.cpp $(WINFLAGS)
+MainProcessor.o: MainProcessor.cpp $(HEADERS)
+	$(CC) -c MainProcessor.cpp $(WINFLAGS)
 
 ReadFromFile.o: ReadFromFile.cpp $(HEADERS)
 	$(CC) -c ReadFromFile.cpp $(WINFLAGS)

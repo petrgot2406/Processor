@@ -15,7 +15,7 @@ int main()
 
     InitStack(&stack);
 
-    const char* code_file_name = "progga.asm";
+    const char* code_file_name = "code.asm";
 
     FILE* fr = fopen(code_file_name, "r");
 
