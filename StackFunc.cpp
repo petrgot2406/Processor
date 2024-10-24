@@ -43,12 +43,11 @@ Error_t PopStack(Stack_t* stack)
         return stack_error;
     }
 
-    if (4 * (stack->size - 2) < stack->capacity)
+    if (4 * (stack->size - 2) < stack->capacity && stack->size >= 3)
     {
         stack->capacity /= 2;
         ReallocStackData(stack);
     }
-
     printf("pop\n");
 
     *((stack_element_t*)(stack->data + 1) + stack->size) = 0;
@@ -111,5 +110,5 @@ stack_element_t PeekStack(Stack_t stack)
 {
     assert(stack.size > 0);
 
-    return *((stack_element_t*)(stack.data + 1) + stack.size);
+    return *((stack_element_t*)(stack.data + 1) + stack.size - 1);
 }
