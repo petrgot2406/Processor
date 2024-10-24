@@ -24,20 +24,34 @@ int main()
     size_t file_size = num_of_symbols_in_file(program_file_name);
     size_t str_num = num_of_strings_in_file(program_file_name);
 
+    printf("There are %d symbols\n", file_size);
+    printf("There are %d strings\n", str_num);
+
     char* buffer = (char*)calloc(file_size, sizeof(char));
 
     size_t* lineslen = (size_t*)calloc(str_num, sizeof(size_t));
 
     char** lines = (char**)calloc(str_num + 1, sizeof(char*));
 
+
     Read_file_to_buffer(program_file_name, file_size, buffer);
     Put_lineslen_for_all_lines(buffer, file_size, str_num, lineslen);
+
+
+
+
     Put_pointers_to_lines(buffer, file_size, str_num, lines);
 
-    char* word = strtok(buffer, " \r\n");
 
-    while (word != NULL)
+
+
+    printf("Reading complete\n");
+    printf("%s\n", buffer);
+
+    for (size_t i = 0; i < str_num; i++)
     {
+        char* word = lines[i];
+
         if (strcmp(word, "push") == 0)
         {
             fprintf(fw, "%d\n", CMD_PUSH);
@@ -70,7 +84,6 @@ int main()
         {
             return 1;
         }
-        word = strtok(buffer, " \r\n");
     }
 
     fclose(fr);
