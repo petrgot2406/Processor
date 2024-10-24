@@ -80,6 +80,7 @@ int main()
         }
         else
         {
+            fprintf(fw, "ERROR\n");
             printf("ERROR\n");
             free(word);
             return ERROR_ASM;
@@ -133,8 +134,6 @@ void Read_file_to_buffer(const char* file_name, size_t file_size, char* buffer)
 {
     assert(file_name != NULL);
 
-    //buffer = (char*)calloc(file_size, sizeof(char));
-
     FILE* fptr = fopen(file_name, "r");
     if (fptr)
     {
@@ -146,8 +145,6 @@ void Read_file_to_buffer(const char* file_name, size_t file_size, char* buffer)
 void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t* lineslen)
 {
     assert(buffer != NULL);
-
-    //lineslen = (size_t*)calloc(str_num, sizeof(size_t));
 
     size_t num_of_the_str = 0;
     size_t count_sym_in_str = 0;
@@ -168,8 +165,6 @@ void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t* lineslen
 void Put_pointers_to_lines(char* buffer, size_t file_size, size_t str_num, char** lines)
 {
     assert(buffer != NULL);
-
-    //lines = (char**)calloc(str_num + 1, sizeof(char*));
 
     size_t num_of_the_str = 1;
     lines[0] = &buffer[0];
