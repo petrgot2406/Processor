@@ -41,33 +41,52 @@ int main()
             word[j] = lines[i][j];
         }
 
-        if (strcmp(word, "push\n") == 0)
+        char* func = (char*)calloc(lineslen[i], sizeof(char));
+        int arg = 0;
+
+        int numb = sscanf(word, "%s %d", func, &arg);
+
+        if (numb == 2)
         {
-            fprintf(fw, "%d\n", CMD_PUSH);
+            if (strcmp(func, "push") == 0)
+            {
+                fprintf(fw, "%d ", CMD_PUSH);
+                fprintf(fw, "%d\n", arg);
+            }
         }
-        else if (strcmp(word, "add\n") == 0)
+        else if (numb == 1)
         {
-            fprintf(fw, "%d\n", CMD_ADD);
-        }
-        else if (strcmp(word, "sub\n") == 0)
-        {
-            fprintf(fw, "%d\n", CMD_SUB);
-        }
-        else if (strcmp(word, "mul\n") == 0)
-        {
-            fprintf(fw, "%d\n", CMD_MUL);
-        }
-        else if (strcmp(word, "div\n") == 0)
-        {
-            fprintf(fw, "%d\n", CMD_DIV);
-        }
-        else if (strcmp(word, "out\n") == 0)
-        {
-            fprintf(fw, "%d\n", CMD_OUT);
-        }
-        else if (strcmp(word, "in\n") == 0)
-        {
-            fprintf(fw, "%d\n", CMD_IN);
+            if (strcmp(word, "add\n") == 0)
+            {
+                fprintf(fw, "%d\n", CMD_ADD);
+            }
+            else if (strcmp(word, "sub\n") == 0)
+            {
+                fprintf(fw, "%d\n", CMD_SUB);
+            }
+            else if (strcmp(word, "mul\n") == 0)
+            {
+                fprintf(fw, "%d\n", CMD_MUL);
+            }
+            else if (strcmp(word, "div\n") == 0)
+            {
+                fprintf(fw, "%d\n", CMD_DIV);
+            }
+            else if (strcmp(word, "out\n") == 0)
+            {
+                fprintf(fw, "%d\n", CMD_OUT);
+            }
+            else if (strcmp(word, "in\n") == 0)
+            {
+                fprintf(fw, "%d\n", CMD_IN);
+            }
+            else
+            {
+                fprintf(fw, "ERROR\n");
+                printf("ERROR\n");
+                free(word);
+                return ERROR_ASM;
+            }
         }
         else
         {
@@ -76,6 +95,7 @@ int main()
             free(word);
             return ERROR_ASM;
         }
+
         free(word);
     }
 
