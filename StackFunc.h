@@ -12,4 +12,6 @@ Error_t PopStack(Stack_t* stack);
 Error_t InitStack(Stack_t* stack);
 Error_t DestroyStack(Stack_t* stack);
 
+stack_element_t PeekStack(Stack_t stack);
+
 #endif

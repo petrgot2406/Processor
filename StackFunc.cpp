@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "Constants.h"
 #include "Struct.h"
 #include "StackFunc.h"
@@ -103,4 +104,11 @@ Error_t DestroyStack(Stack_t* stack)
     free(stack->data);
 
     return stack_error;
+}
+
+stack_element_t PeekStack(Stack_t stack)
+{
+    assert(stack.size > 0);
+
+    return *((stack_element_t*)(stack.data + 1) + stack.size);
 }
