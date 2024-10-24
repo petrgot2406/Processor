@@ -54,29 +54,34 @@ int main()
         {
             fprintf(fw, "%d\n", CMD_PUSH);
         }
-        if (strcmp(word, "add\n") == 0)
+        else if (strcmp(word, "add\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_ADD);
         }
-        if (strcmp(word, "sub\n") == 0)
+        else if (strcmp(word, "sub\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_SUB);
         }
-        if (strcmp(word, "mul\n") == 0)
+        else if (strcmp(word, "mul\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_MUL);
         }
-        if (strcmp(word, "div\n") == 0)
+        else if (strcmp(word, "div\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_DIV);
         }
-        if (strcmp(word, "out\n") == 0)
+        else if (strcmp(word, "out\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_OUT);
         }
-        if (strcmp(word, "in\n") == 0)
+        else if (strcmp(word, "in\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_IN);
+        }
+        else
+        {
+            printf("ERROR\n");
+            return 1;
         }
     }
 
