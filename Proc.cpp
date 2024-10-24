@@ -43,63 +43,77 @@ int main()
 
         stack_element_t a, b;
 
-        int func;
-        sscanf(word, "%d", &func);
+        int func, arg;
 
-        switch(func)
+        int numb = sscanf(word, "%d %d", &func, &arg);
+
+        if (numb == 2)
         {
-            case CMD_PUSH: PushStack(&stack, 60);
-                           break;
+            if (func == CMD_PUSH)
+            {
+                PushStack(&stack, arg);
+            }
+        }
+        else if (numb == 1)
+        {
+            switch(func)
+            {
+                case CMD_PUSH: PushStack(&stack, 60);
+                               break;
 
-            case CMD_ADD: a = PeekStack(stack);
-                          PopStack(&stack);
+                case CMD_ADD: a = PeekStack(stack);
+                              PopStack(&stack);
 
-                          b = PeekStack(stack);
-                          PopStack(&stack);
+                              b = PeekStack(stack);
+                              PopStack(&stack);
 
-                          PushStack(&stack, a + b);
-                          break;
+                              PushStack(&stack, a + b);
+                              break;
 
-            case CMD_SUB: a = PeekStack(stack);
-                          PopStack(&stack);
+                case CMD_SUB: a = PeekStack(stack);
+                              PopStack(&stack);
 
-                          b = PeekStack(stack);
-                          PopStack(&stack);
+                              b = PeekStack(stack);
+                              PopStack(&stack);
 
-                          PushStack(&stack, a - b);
-                          break;
+                              PushStack(&stack, a - b);
+                              break;
 
-            case CMD_MUL: a = PeekStack(stack);
-                          PopStack(&stack);
+                case CMD_MUL: a = PeekStack(stack);
+                              PopStack(&stack);
 
-                          b = PeekStack(stack);
-                          PopStack(&stack);
+                              b = PeekStack(stack);
+                              PopStack(&stack);
 
-                          PushStack(&stack, a * b);
-                          break;
+                              PushStack(&stack, a * b);
+                              break;
 
-            case CMD_DIV: a = PeekStack(stack);
-                          PopStack(&stack);
+                case CMD_DIV: a = PeekStack(stack);
+                              PopStack(&stack);
 
-                          b = PeekStack(stack);
-                          PopStack(&stack);
+                              b = PeekStack(stack);
+                              PopStack(&stack);
 
-                          PushStack(&stack, a / b);
-                          break;
+                              PushStack(&stack, a / b);
+                              break;
 
-            case CMD_OUT: DumpStack(stack);
-                          break;
+                case CMD_OUT: DumpStack(stack);
+                              break;
 
-            case CMD_IN: stack_element_t elem;
-                         scanf("%d", &elem);
-                         PushStack(&stack, elem);
+                case CMD_IN: stack_element_t elem;
+                             scanf("%d", &elem);
+                             PushStack(&stack, elem);
 
-            default: printf("ERROR\n");
-                     return 1;
+                default: printf("ERROR\n");
+                         return 1;
+            }
+        }
+        else
+        {
+            printf("ERROR\n");
         }
 
         free(word);
-
     }
 
     fclose(fr);

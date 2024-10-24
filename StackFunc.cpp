@@ -29,6 +29,8 @@ Error_t PushStack(Stack_t* stack, stack_element_t new_elem)
 
     ChangeStackHash(stack);
 
+    DumpStack(*stack);
+
     return stack_error;
 }
 
@@ -46,6 +48,7 @@ Error_t PopStack(Stack_t* stack)
         stack->capacity /= 2;
         ReallocStackData(stack);
     }
+
     printf("pop\n");
 
     *((stack_element_t*)(stack->data + 1) + stack->size) = 0;
@@ -54,6 +57,8 @@ Error_t PopStack(Stack_t* stack)
 
     ChangeStackHash(stack);
 
+    DumpStack(*stack);
+
     return stack_error;
 }
 
@@ -61,7 +66,7 @@ Error_t InitStack(Stack_t* stack)
 {
     if (stack == NULL)
     {
-        printf("ERROR IN ADDRESS OF stack!\n");
+        printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
 

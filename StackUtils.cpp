@@ -33,19 +33,19 @@ Error_t CheckStack(Stack_t* stack)
 {
     if (stack->size >= stack->capacity)
     {
-        printf("ERROR IN SIZE OF stack!\n");
+        printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
     }
 
     if (stack->data == NULL)
     {
-        printf("ERROR IN DATA!\n");
+        printf("ERROR IN STACK!\n");
         return ERROR_DATA;
     }
 
     if (stack->canary_start != canary || stack->canary_end != canary)
     {
-        printf("ERROR IN CANARY stack!\n");
+        printf("ERROR IN CANARY STACK!\n");
         return ERROR_CANARY_STACK;
     }
 
@@ -64,7 +64,7 @@ Error_t CheckStack(Stack_t* stack)
         2 * sizeof(size_t)) !=
         stack->hash_struct.stack_hash)
     {
-        printf("ERROR IN HASH stack!\n");
+        printf("ERROR IN HASH STACK!\n");
         return ERROR_HASH_STACK;
     }
 
