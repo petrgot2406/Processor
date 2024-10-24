@@ -11,7 +11,7 @@
 size_t num_of_symbols_in_file(const char* file_name);
 size_t num_of_strings_in_file(const char* file_name);
 void Read_file_to_buffer(const char* file_name, size_t file_size, char* buffer);
-void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t str_num, size_t* lineslen);
+void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t* lineslen);
 void Put_pointers_to_lines(char* buffer, size_t file_size, size_t str_num, char** lines);
 
 int main()
@@ -35,15 +35,8 @@ int main()
 
 
     Read_file_to_buffer(program_file_name, file_size, buffer);
-    Put_lineslen_for_all_lines(buffer, file_size, str_num, lineslen);
-
-
-
-
+    Put_lineslen_for_all_lines(buffer, file_size, lineslen);
     Put_pointers_to_lines(buffer, file_size, str_num, lines);
-
-
-
 
     printf("Reading complete\n");
     printf("%s\n", buffer);
@@ -51,40 +44,45 @@ int main()
     for (size_t i = 0; i < str_num; i++)
     {
         char* word = lines[i];
-
-        if (strcmp(word, "push") == 0)
+        printf("word init\n");
+        printf("%s\n", word);
+        if (strcmp(word, "push\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_PUSH);
         }
-        if (strcmp(word, "add") == 0)
+        if (strcmp(word, "add\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_ADD);
         }
-        if (strcmp(word, "sub") == 0)
+        if (strcmp(word, "sub\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_SUB);
         }
-        if (strcmp(word, "mul") == 0)
+        if (strcmp(word, "mul\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_MUL);
         }
-        if (strcmp(word, "div") == 0)
+        if (strcmp(word, "div\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_DIV);
         }
-        if (strcmp(word, "out") == 0)
+        if (strcmp(word, "out\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_OUT);
         }
-        if (strcmp(word, "in") == 0)
+        if (strcmp(word, "in\n") == 0)
         {
             fprintf(fw, "%d\n", CMD_IN);
         }
         else
         {
-            return 1;
+            printf("ERROR\n\n");
         }
     }
+
+    free(buffer);
+    free(lineslen);
+    free(lines);
 
     fclose(fr);
     fclose(fw);
@@ -128,7 +126,7 @@ void Read_file_to_buffer(const char* file_name, size_t file_size, char* buffer)
 {
     assert(file_name != NULL);
 
-    buffer = (char*)calloc(file_size, sizeof(char));
+    //buffer = (char*)calloc(file_size, sizeof(char));
 
     FILE* fptr = fopen(file_name, "r");
     if (fptr)
@@ -138,11 +136,11 @@ void Read_file_to_buffer(const char* file_name, size_t file_size, char* buffer)
     }
 }
 
-void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t str_num, size_t* lineslen)
+void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t* lineslen)
 {
     assert(buffer != NULL);
 
-    lineslen = (size_t*)calloc(str_num, sizeof(size_t));
+    //lineslen = (size_t*)calloc(str_num, sizeof(size_t));
 
     size_t num_of_the_str = 0;
     size_t count_sym_in_str = 0;
@@ -164,7 +162,9 @@ void Put_pointers_to_lines(char* buffer, size_t file_size, size_t str_num, char*
 {
     assert(buffer != NULL);
 
-    lines = (char**)calloc(str_num + 1, sizeof(char*));
+    printf("Assertion complete\n");
+
+    //lines = (char**)calloc(str_num + 1, sizeof(char*));
 
     size_t num_of_the_str = 1;
     lines[0] = &buffer[0];
