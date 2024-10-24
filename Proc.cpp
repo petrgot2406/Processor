@@ -15,7 +15,6 @@ int main()
 
     InitStack(&stack);
 
-
     const char* code_file_name = "progga.asm";
 
     FILE* fr = fopen(code_file_name, "r");
@@ -42,42 +41,47 @@ int main()
             word[j] = lines[i][j];
         }
 
-        switch(word)
+        stack_element_t a, b;
+
+        int func;
+        sscanf(word, "%d", &func);
+
+        switch(func)
         {
             case CMD_PUSH: PushStack(&stack, 60);
                            break;
 
-            case CMD_ADD: stack_element_t a = PeekStack(stack);
+            case CMD_ADD: a = PeekStack(stack);
                           PopStack(&stack);
 
-                          stack_element_t b = PeekStack(stack);
+                          b = PeekStack(stack);
                           PopStack(&stack);
 
                           PushStack(&stack, a + b);
                           break;
 
-            case CMD_SUB: stack_element_t a = PeekStack(stack);
+            case CMD_SUB: a = PeekStack(stack);
                           PopStack(&stack);
 
-                          stack_element_t b = PeekStack(stack);
+                          b = PeekStack(stack);
                           PopStack(&stack);
 
                           PushStack(&stack, a - b);
                           break;
 
-            case CMD_MUL: stack_element_t a = PeekStack(stack);
+            case CMD_MUL: a = PeekStack(stack);
                           PopStack(&stack);
 
-                          stack_element_t b = PeekStack(stack);
+                          b = PeekStack(stack);
                           PopStack(&stack);
 
                           PushStack(&stack, a * b);
                           break;
 
-            case CMD_DIV: stack_element_t a = PeekStack(stack);
+            case CMD_DIV: a = PeekStack(stack);
                           PopStack(&stack);
 
-                          stack_element_t b = PeekStack(stack);
+                          b = PeekStack(stack);
                           PopStack(&stack);
 
                           PushStack(&stack, a / b);
@@ -87,8 +91,8 @@ int main()
                           break;
 
             case CMD_IN: stack_element_t elem;
-                        scanf("%d", &elem);
-                        PushStack(&stack, elem);
+                         scanf("%d", &elem);
+                         PushStack(&stack, elem);
 
             default: printf("ERROR\n");
                      return 1;

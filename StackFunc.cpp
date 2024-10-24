@@ -29,8 +29,6 @@ Error_t PushStack(Stack_t* stack, stack_element_t new_elem)
 
     ChangeStackHash(stack);
 
-    DumpStack(*stack);
-
     return stack_error;
 }
 
@@ -55,8 +53,6 @@ Error_t PopStack(Stack_t* stack)
     stack->size--;
 
     ChangeStackHash(stack);
-
-    DumpStack(*stack);
 
     return stack_error;
 }
