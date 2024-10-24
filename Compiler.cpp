@@ -81,8 +81,10 @@ int main()
         else
         {
             printf("ERROR\n");
+            free(word);
             return 1;
         }
+        free(word);
     }
 
     free(buffer);
