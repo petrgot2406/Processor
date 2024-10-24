@@ -2,5 +2,8 @@ push
 push
 mul
 sub
-fdg
 sub
+add
+add
+add
+add

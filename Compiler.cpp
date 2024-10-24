@@ -43,7 +43,7 @@ int main()
 
     for (size_t i = 0; i < str_num; i++)
     {
-        char* word = (char*)calloc(lineslen[i] + 1, sizeof(char));
+        char* word = (char*)calloc(lineslen[i], sizeof(char));
 
         for (size_t j = 0; j < lineslen[i] + 1; j++)
         {
@@ -82,7 +82,7 @@ int main()
         {
             printf("ERROR\n");
             free(word);
-            return 1;
+            return ERROR_ASM;
         }
         free(word);
     }
@@ -93,7 +93,7 @@ int main()
 
     fclose(fr);
     fclose(fw);
-    return 0;
+    return COMPILE_OK;
 }
 
 size_t num_of_symbols_in_file(const char* file_name)
