@@ -33,6 +33,8 @@ int main()
         return err_proc;
     }
 
+    free(spu.arrcode);
+
     return 0;
 }
 
@@ -61,7 +63,6 @@ Error_processor PushCodeToArray(SPU* spu, File_t code)
 
 Error_processor Processor(SPU* spu, File_t code)
 {
-
     for (size_t i = 0; i < code.str_num; i++)
     {
         if (spu->arrcode[i] == 1)

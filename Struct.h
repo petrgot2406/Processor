@@ -19,6 +19,12 @@ struct Stack_t
     canary_type canary_end;
 };
 
+struct Label
+{
+    size_t ip;
+    char* name;
+};
+
 struct File_t
 {
     const char* file_name;
