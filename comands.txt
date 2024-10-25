@@ -1,9 +1,0 @@
-//push
-//pop
-//add
-//sub
-//mul
-//in
-//out
-//
-//

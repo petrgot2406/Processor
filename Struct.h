@@ -39,9 +39,9 @@ struct Registers
 
 struct SPU
 {
-    struct Stack_t stack;
-    struct File_t code;
-    struct Registers registers;
+    Stack_t stack;
+    File_t code;
+    Registers registers;
 };
 
 #endif

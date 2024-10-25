@@ -56,6 +56,7 @@ Error_assembler Assembler(File_t program, FILE* fw)
             case 1: if (strcmp(func, "add") == 0)
                     {
                         fprintf(fw, "%d\n", CMD_ADD);
+
                     }
                     else if (strcmp(func, "sub") == 0)
                     {
@@ -82,6 +83,7 @@ Error_assembler Assembler(File_t program, FILE* fw)
                         fprintf(fw, "ERROR\n");
                         printf("ERROR\n");
                         free(word);
+                        free(func);
                         return ERROR_ASM;
                     }
                     break;
@@ -96,6 +98,7 @@ Error_assembler Assembler(File_t program, FILE* fw)
                         fprintf(fw, "ERROR\n");
                         printf("ERROR\n");
                         free(word);
+                        free(func);
                         return ERROR_ASM;
                     }
                     break;
@@ -103,6 +106,7 @@ Error_assembler Assembler(File_t program, FILE* fw)
             default: fprintf(fw, "ERROR\n");
                      printf("ERROR\n");
                      free(word);
+                     free(func);
                      return ERROR_ASM;
         }
 

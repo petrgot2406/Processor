@@ -7,21 +7,21 @@
 #include "Stack.h"
 #include "ReadFromFile.h"
 
-Error_processor Processor(File_t code, Stack_t* stack);
+Error_processor Processor(SPU* spu);
 
 int main()
 {
-    struct Stack_t stack = {};
+    struct SPU spu = {};
 
-    InitStack(&stack);
+    InitStack(&spu.stack);
 
-    struct File_t code = {};
+    //struct File_t code = {};
 
-    code.file_name = "code.asm";
+    spu.code.file_name = "code.asm";
 
-    Put_file_to_structure(&code);
+    Put_file_to_structure(&spu.code);
 
-    Error_processor err_proc = Processor(code, &stack);
+    Error_processor err_proc = Processor(&spu);
 
     if (err_proc != PROCESSED_OK)
     {
@@ -31,15 +31,15 @@ int main()
     return 0;
 }
 
-Error_processor Processor(File_t code, Stack_t* stack)
+Error_processor Processor(SPU* spu)
 {
-    for (size_t i = 0; i < code.str_num; i++)
+    for (size_t i = 0; i < spu->code.str_num; i++)
     {
-        char* word = (char*)calloc(code.lineslen[i], sizeof(char));
+        char* word = (char*)calloc(spu->code.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < code.lineslen[i] + 1; j++)
+        for (size_t j = 0; j < spu->code.lineslen[i] + 1; j++)
         {
-            word[j] = code.lines[i][j];
+            word[j] = spu->code.lines[i][j];
         }
 
         stack_element_t a, b;
@@ -52,50 +52,50 @@ Error_processor Processor(File_t code, Stack_t* stack)
         {
             switch(func)
             {
-                case CMD_ADD: a = PeekStack(*stack);
-                              PopStack(stack);
+                case CMD_ADD: a = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              b = PeekStack(*stack);
-                              PopStack(stack);
+                              b = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              PushStack(stack, a + b);
+                              PushStack(&spu->stack, a + b);
                               break;
 
-                case CMD_SUB: a = PeekStack(*stack);
-                              PopStack(stack);
+                case CMD_SUB: a = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              b = PeekStack(*stack);
-                              PopStack(stack);
+                              b = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              PushStack(stack, a - b);
+                              PushStack(&spu->stack, a - b);
                               break;
 
-                case CMD_MUL: a = PeekStack(*stack);
-                              PopStack(stack);
+                case CMD_MUL: a = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              b = PeekStack(*stack);
-                              PopStack(stack);
+                              b = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              PushStack(stack, a * b);
+                              PushStack(&spu->stack, a * b);
                               break;
 
-                case CMD_DIV: a = PeekStack(*stack);
-                              PopStack(stack);
+                case CMD_DIV: a = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              b = PeekStack(*stack);
-                              PopStack(stack);
+                              b = PeekStack(spu->stack);
+                              PopStack(&spu->stack);
 
-                              PushStack(stack, b / a);
+                              PushStack(&spu->stack, b / a);
                               break;
 
-                case CMD_OUT: a = PeekStack(*stack);
-                              printf("%d\n", a);
+                case CMD_OUT: a = PeekStack(spu->stack);
+                              printf("Result = %d\n", a);
                               break;
 
                 case CMD_IN: stack_element_t elem;
                              printf("Input new element: ");
                              scanf("%d", &elem);
-                             PushStack(stack, elem);
+                             PushStack(&spu->stack, elem);
                              break;
 
                 default: printf("ERROR\n");
@@ -106,7 +106,7 @@ Error_processor Processor(File_t code, Stack_t* stack)
         {
             if (func == CMD_PUSH)
             {
-                PushStack(stack, arg);
+                PushStack(&spu->stack, arg);
             }
             else
             {
