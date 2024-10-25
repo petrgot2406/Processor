@@ -25,7 +25,7 @@ enum Error_stack
 
 enum Error_assembler
 {
-    ASSEMBLE_OK = 0,
+    ASSEMBLED_OK = 0,
     ERROR_ASM = 1
 };
 

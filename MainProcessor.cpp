@@ -7,33 +7,32 @@
 #include "Stack.h"
 #include "ReadFromFile.h"
 
+Error_processor Processor(File_t code, Stack_t* stack);
+
 int main()
 {
-    struct File code = {};
-
     struct Stack_t stack = {};
 
     InitStack(&stack);
 
+    struct File_t code = {};
+
     code.file_name = "code.asm";
 
-    code.file_size = num_of_symbols_in_file(code.file_name);
-    code.str_num = num_of_strings_in_file(code.file_name);
+    Put_file_to_structure(&code);
 
-    code.buffer = (char*)calloc(code.file_size + 1, sizeof(char));
+    Error_processor err_proc = Processor(code, &stack);
 
-    code.lineslen = (size_t*)calloc(code.str_num, sizeof(size_t));
+    if (err_proc != PROCESSED_OK)
+    {
+        return err_proc;
+    }
 
-    code.lines = (char**)calloc(code.str_num + 1, sizeof(char*));
+    return 0;
+}
 
-    FILE* fr = fopen(code.file_name, "r");
-
-    Read_file_to_buffer(code.file_name, code.file_size, code.buffer);
-    Put_lineslen_for_all_lines(code.buffer, code.file_size, code.lineslen);
-    Put_pointers_to_lines(code.buffer, code.file_size, code.str_num, code.lines);
-
-    fclose(fr);
-
+Error_processor Processor(File_t code, Stack_t* stack)
+{
     for (size_t i = 0; i < code.str_num; i++)
     {
         char* word = (char*)calloc(code.lineslen[i], sizeof(char));
@@ -53,65 +52,65 @@ int main()
         {
             if (func == CMD_PUSH)
             {
-                PushStack(&stack, arg);
+                PushStack(stack, arg);
             }
         }
         else if (numb == 1)
         {
             switch(func)
             {
-                case CMD_PUSH: PushStack(&stack, 60);
+                case CMD_PUSH: PushStack(stack, 60);
 
                                break;
 
-                case CMD_ADD: a = PeekStack(stack);
-                              PopStack(&stack);
+                case CMD_ADD: a = PeekStack(*stack);
+                              PopStack(stack);
 
-                              b = PeekStack(stack);
-                              PopStack(&stack);
+                              b = PeekStack(*stack);
+                              PopStack(stack);
 
-                              PushStack(&stack, a + b);
-
-                              break;
-
-                case CMD_SUB: a = PeekStack(stack);
-                              PopStack(&stack);
-
-                              b = PeekStack(stack);
-                              PopStack(&stack);
-
-                              PushStack(&stack, a - b);
+                              PushStack(stack, a + b);
 
                               break;
 
-                case CMD_MUL: a = PeekStack(stack);
-                              PopStack(&stack);
+                case CMD_SUB: a = PeekStack(*stack);
+                              PopStack(stack);
 
-                              b = PeekStack(stack);
-                              PopStack(&stack);
+                              b = PeekStack(*stack);
+                              PopStack(stack);
 
-                              PushStack(&stack, a * b);
-
-                              break;
-
-                case CMD_DIV: a = PeekStack(stack);
-                              PopStack(&stack);
-
-                              b = PeekStack(stack);
-                              PopStack(&stack);
-
-                              PushStack(&stack, a / b);
+                              PushStack(stack, a - b);
 
                               break;
 
-                case CMD_OUT: DumpStack(stack);
+                case CMD_MUL: a = PeekStack(*stack);
+                              PopStack(stack);
+
+                              b = PeekStack(*stack);
+                              PopStack(stack);
+
+                              PushStack(stack, a * b);
+
+                              break;
+
+                case CMD_DIV: a = PeekStack(*stack);
+                              PopStack(stack);
+
+                              b = PeekStack(*stack);
+                              PopStack(stack);
+
+                              PushStack(stack, a / b);
+
+                              break;
+
+                case CMD_OUT: DumpStack(*stack);
 
                               break;
 
                 case CMD_IN: stack_element_t elem;
                              printf("Input new element: ");
                              scanf("%d", &elem);
-                             PushStack(&stack, elem);
+                             PushStack(stack, elem);
 
                              break;
 

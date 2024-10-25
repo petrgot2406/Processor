@@ -19,7 +19,7 @@ struct Stack_t
     canary_type canary_end;
 };
 
-struct File
+struct File_t
 {
     const char* file_name;
     size_t file_size;

@@ -6,11 +6,11 @@
 #include "Struct.h"
 #include "ReadFromFile.h"
 
-size_t num_of_symbols_in_file(const char* file_name)
+size_t num_of_symbols_in_file(File_t file)
 {
-    assert(file_name != NULL);
+    assert(file.file_name != NULL);
 
-    FILE *fptr = fopen(file_name, "r");
+    FILE *fptr = fopen(file.file_name, "r");
     size_t counter = 0;
     while (getc(fptr) != EOF)
     {
@@ -20,11 +20,11 @@ size_t num_of_symbols_in_file(const char* file_name)
     return counter;
 }
 
-size_t num_of_strings_in_file(const char* file_name)
+size_t num_of_strings_in_file(File_t file)
 {
-    assert(file_name != NULL);
+    assert(file.file_name != NULL);
 
-    FILE *fptr = fopen(file_name, "r");
+    FILE *fptr = fopen(file.file_name, "r");
     size_t counter = 0;
     int ch = getc(fptr);
     while (ch != EOF)
@@ -39,53 +39,78 @@ size_t num_of_strings_in_file(const char* file_name)
     return counter;
 }
 
-void Read_file_to_buffer(const char* file_name, size_t file_size, char* buffer)
+void Init_file(File_t* file)
 {
-    assert(file_name != NULL);
+    file->file_size = num_of_symbols_in_file(*file);
+    file->str_num = num_of_strings_in_file(*file);
 
-    FILE* fptr = fopen(file_name, "r");
+    file->buffer = (char*)calloc(file->file_size + 1, sizeof(char));
+
+    file->lineslen = (size_t*)calloc(file->str_num, sizeof(size_t));
+
+    file->lines = (char**)calloc(file->str_num + 1, sizeof(char*));
+}
+
+void Read_file_to_buffer(File_t* file)
+{
+    assert(file->file_name != NULL);
+
+    FILE* fptr = fopen(file->file_name, "r");
     if (fptr)
     {
-        fread(buffer, sizeof(char), file_size, fptr);
+        fread(file->buffer, sizeof(char), file->file_size, fptr);
         fclose(fptr);
     }
 }
 
-void Put_lineslen_for_all_lines(char* buffer, size_t file_size, size_t* lineslen)
+void Put_lineslen_for_all_lines(File_t* file)
 {
-    assert(buffer != NULL);
+    assert(file->buffer != NULL);
 
     size_t num_of_the_str = 0;
     size_t count_sym_in_str = 0;
-    for (size_t i = 0; i < file_size; i++)
+    for (size_t i = 0; i < file->file_size; i++)
     {
         count_sym_in_str++;
-        if (buffer[i] == '\n' ||
-            buffer[i] == '\0' ||
-            buffer[i] == '\r' ||
-            buffer[i] == EOF)
+        if (file->buffer[i] == '\n' ||
+            file->buffer[i] == '\0' ||
+            file->buffer[i] == '\r' ||
+            file->buffer[i] == EOF)
         {
-            lineslen[num_of_the_str] = count_sym_in_str - 1;
+            file->lineslen[num_of_the_str] = count_sym_in_str - 1;
             num_of_the_str++;
             count_sym_in_str = 0;
         }
     }
 }
 
-void Put_pointers_to_lines(char* buffer, size_t file_size, size_t str_num, char** lines)
+void Put_pointers_to_lines(File_t* file)
 {
-    assert(buffer != NULL);
+    assert(file->buffer != NULL);
 
     size_t num_of_the_str = 1;
-    lines[0] = &buffer[0];
-    for (size_t i = 1; i < file_size; i++)
+    file->lines[0] = &file->buffer[0];
+    for (size_t i = 1; i < file->file_size; i++)
     {
-        if (buffer[i] == '\n')
+        if (file->buffer[i] == '\n')
         {
-            assert(num_of_the_str <= str_num);
+            assert(num_of_the_str <= file->str_num);
 
-            lines[num_of_the_str] = &buffer[i + 1];
+            file->lines[num_of_the_str] = &file->buffer[i + 1];
             num_of_the_str++;
         }
     }
+}
+
+void Put_file_to_structure(File_t* file)
+{
+    Init_file(file);
+
+    FILE* fr = fopen(file->file_name, "r");
+
+    Read_file_to_buffer(file);
+    Put_lineslen_for_all_lines(file);
+    Put_pointers_to_lines(file);
+
+    fclose(fr);
 }
