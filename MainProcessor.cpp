@@ -101,6 +101,7 @@ int main()
                               break;
 
                 case CMD_IN: stack_element_t elem;
+                             printf("Input new element: ");
                              scanf("%d", &elem);
                              PushStack(&stack, elem);
                              break;
