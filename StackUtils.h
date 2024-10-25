@@ -7,8 +7,8 @@
 #include "StackUtils.h"
 #include "StackHash.h"
 
-Error_t DumpStack(Stack_t stack);
-Error_t CheckStack(Stack_t* stack);
-Error_t ReallocStackData(Stack_t* stack);
+Error_stack DumpStack(Stack_t stack);
+Error_stack CheckStack(Stack_t* stack);
+Error_stack ReallocStackData(Stack_t* stack);
 
 #endif

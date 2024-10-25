@@ -8,6 +8,6 @@
 #include "StackHash.h"
 
 unsigned long Hash(char* data, size_t size);
-Error_t ChangeStackHash(Stack_t* stack);
+Error_stack ChangeStackHash(Stack_t* stack);
 
 #endif

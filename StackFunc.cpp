@@ -7,9 +7,9 @@
 #include "StackUtils.h"
 #include "StackHash.h"
 
-Error_t PushStack(Stack_t* stack, stack_element_t new_elem)
+Error_stack PushStack(Stack_t* stack, stack_element_t new_elem)
 {
-    Error_t stack_error = CheckStack(stack);
+    Error_stack stack_error = CheckStack(stack);
 
     if (stack_error != FOUND_OK)
     {
@@ -32,9 +32,9 @@ Error_t PushStack(Stack_t* stack, stack_element_t new_elem)
     return stack_error;
 }
 
-Error_t PopStack(Stack_t* stack)
+Error_stack PopStack(Stack_t* stack)
 {
-    Error_t stack_error = CheckStack(stack);
+    Error_stack stack_error = CheckStack(stack);
 
     if (stack_error != FOUND_OK)
     {
@@ -57,7 +57,7 @@ Error_t PopStack(Stack_t* stack)
     return stack_error;
 }
 
-Error_t InitStack(Stack_t* stack)
+Error_stack InitStack(Stack_t* stack)
 {
     if (stack == NULL)
     {
@@ -83,9 +83,9 @@ Error_t InitStack(Stack_t* stack)
     return FOUND_OK;
 }
 
-Error_t DestroyStack(Stack_t* stack)
+Error_stack DestroyStack(Stack_t* stack)
 {
-    Error_t stack_error = CheckStack(stack);
+    Error_stack stack_error = CheckStack(stack);
 
     if (stack_error != FOUND_OK)
     {

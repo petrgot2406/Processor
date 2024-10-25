@@ -10,7 +10,7 @@ typedef int stack_element_t;
 
 const canary_type canary = 0xDEDDEDDEDDEDDEDF;
 
-enum Error_t
+enum Error_stack
 {
     FOUND_OK = 0,
     ERROR_ADDRESS = 1,
@@ -23,6 +23,18 @@ enum Error_t
     ERROR_HASH_DATA = 1 << 7
 };
 
+enum Error_assembler
+{
+    ASSEMBLE_OK = 0,
+    ERROR_ASM = 1
+};
+
+enum Error_processor
+{
+    PROCESSED_OK = 0,
+    ERROR_PROCESS = 1
+};
+
 enum Commands
 {
     CMD_PUSH = 1,
@@ -33,12 +45,5 @@ enum Commands
     CMD_OUT = 6,
     CMD_IN = 7
 };
-
-enum Error_assembler
-{
-    ASSEMBLE_OK = 0,
-    ERROR_ASM = 1
-};
-
 
 #endif

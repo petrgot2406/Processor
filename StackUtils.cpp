@@ -5,9 +5,9 @@
 #include "StackUtils.h"
 #include "StackHash.h"
 
-Error_t DumpStack(Stack_t stack)
+Error_stack DumpStack(Stack_t stack)
 {
-    Error_t stack_error = CheckStack(&stack);
+    Error_stack stack_error = CheckStack(&stack);
 
     if (stack_error != FOUND_OK)
     {
@@ -29,7 +29,7 @@ Error_t DumpStack(Stack_t stack)
     return stack_error;
 }
 
-Error_t CheckStack(Stack_t* stack)
+Error_stack CheckStack(Stack_t* stack)
 {
     if (stack->size >= stack->capacity)
     {
@@ -80,7 +80,7 @@ Error_t CheckStack(Stack_t* stack)
     return FOUND_OK;
 }
 
-Error_t ReallocStackData(Stack_t* stack)
+Error_stack ReallocStackData(Stack_t* stack)
 {
     stack->data = (canary_type*)realloc(stack->data,
                                       sizeof(canary_type) * 2 +
@@ -94,7 +94,7 @@ Error_t ReallocStackData(Stack_t* stack)
 
     ChangeStackHash(stack);
 
-    Error_t stack_error = CheckStack(stack);
+    Error_stack stack_error = CheckStack(stack);
 
     if (stack_error != FOUND_OK)
     {

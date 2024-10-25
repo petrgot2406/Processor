@@ -105,12 +105,13 @@ int main()
                              break;
 
                 default: printf("ERROR\n");
-                         return 1;
+                         return ERROR_PROCESS;
             }
         }
         else
         {
             printf("ERROR\n");
+            return ERROR_PROCESS;
         }
 
         free(word);
@@ -118,5 +119,5 @@ int main()
 
     fclose(fr);
 
-    return 0;
+    return PROCESSED_OK;
 }
