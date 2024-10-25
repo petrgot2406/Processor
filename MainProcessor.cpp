@@ -48,21 +48,10 @@ Error_processor Processor(File_t code, Stack_t* stack)
 
         int numb = sscanf(word, "%d %d", &func, &arg);
 
-        if (numb == 2)
-        {
-            if (func == CMD_PUSH)
-            {
-                PushStack(stack, arg);
-            }
-        }
-        else if (numb == 1)
+        if (numb == 1)
         {
             switch(func)
             {
-                case CMD_PUSH: PushStack(stack, 60);
-
-                               break;
-
                 case CMD_ADD: a = PeekStack(*stack);
                               PopStack(stack);
 
@@ -70,7 +59,6 @@ Error_processor Processor(File_t code, Stack_t* stack)
                               PopStack(stack);
 
                               PushStack(stack, a + b);
-
                               break;
 
                 case CMD_SUB: a = PeekStack(*stack);
@@ -80,7 +68,6 @@ Error_processor Processor(File_t code, Stack_t* stack)
                               PopStack(stack);
 
                               PushStack(stack, a - b);
-
                               break;
 
                 case CMD_MUL: a = PeekStack(*stack);
@@ -90,7 +77,6 @@ Error_processor Processor(File_t code, Stack_t* stack)
                               PopStack(stack);
 
                               PushStack(stack, a * b);
-
                               break;
 
                 case CMD_DIV: a = PeekStack(*stack);
@@ -100,28 +86,38 @@ Error_processor Processor(File_t code, Stack_t* stack)
                               PopStack(stack);
 
                               PushStack(stack, a / b);
-
                               break;
 
                 case CMD_OUT: a = PeekStack(*stack);
                               printf("%d\n", a);
-
                               break;
 
                 case CMD_IN: stack_element_t elem;
                              printf("Input new element: ");
                              scanf("%d", &elem);
                              PushStack(stack, elem);
-
                              break;
 
                 default: printf("ERROR\n");
                          return ERROR_PROCESS;
             }
         }
+        else if (numb == 2)
+        {
+            if (func == CMD_PUSH)
+            {
+                PushStack(stack, arg);
+            }
+            else
+            {
+                printf("ERROR\n");
+                return ERROR_PROCESS;
+            }
+        }
         else
         {
             printf("ERROR\n");
+            free(word);
             return ERROR_PROCESS;
         }
 

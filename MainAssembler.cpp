@@ -46,54 +46,59 @@ Error_assembler Assembler(File_t program, FILE* fw)
 
         int numb = sscanf(word, "%s %d", func, &arg);
 
-        if (numb == 2)
+        switch(numb)
         {
-            if (strcmp(func, "push") == 0)
-            {
-                fprintf(fw, "%d ", CMD_PUSH);
-                fprintf(fw, "%d\n", arg);
-            }
-        }
-        else if (numb == 1)
-        {
-            if (strcmp(func, "add") == 0)
-            {
-                fprintf(fw, "%d\n", CMD_ADD);
-            }
-            else if (strcmp(func, "sub") == 0)
-            {
-                fprintf(fw, "%d\n", CMD_SUB);
-            }
-            else if (strcmp(func, "mul") == 0)
-            {
-                fprintf(fw, "%d\n", CMD_MUL);
-            }
-            else if (strcmp(func, "div") == 0)
-            {
-                fprintf(fw, "%d\n", CMD_DIV);
-            }
-            else if (strcmp(func, "out") == 0)
-            {
-                fprintf(fw, "%d\n", CMD_OUT);
-            }
-            else if (strcmp(func, "in") == 0)
-            {
-                fprintf(fw, "%d\n", CMD_IN);
-            }
-            else
-            {
-                fprintf(fw, "ERROR\n");
-                printf("ERROR\n");
-                free(word);
-                return ERROR_ASM;
-            }
-        }
-        else
-        {
-            fprintf(fw, "ERROR\n");
-            printf("ERROR\n");
-            free(word);
-            return ERROR_ASM;
+            case 1: if (strcmp(func, "add") == 0)
+                    {
+                        fprintf(fw, "%d\n", CMD_ADD);
+                    }
+                    else if (strcmp(func, "sub") == 0)
+                    {
+                        fprintf(fw, "%d\n", CMD_SUB);
+                    }
+                    else if (strcmp(func, "mul") == 0)
+                    {
+                        fprintf(fw, "%d\n", CMD_MUL);
+                    }
+                    else if (strcmp(func, "div") == 0)
+                    {
+                        fprintf(fw, "%d\n", CMD_DIV);
+                    }
+                    else if (strcmp(func, "out") == 0)
+                    {
+                        fprintf(fw, "%d\n", CMD_OUT);
+                    }
+                    else if (strcmp(func, "in") == 0)
+                    {
+                        fprintf(fw, "%d\n", CMD_IN);
+                    }
+                    else
+                    {
+                        fprintf(fw, "ERROR\n");
+                        printf("ERROR\n");
+                        free(word);
+                        return ERROR_ASM;
+                    }
+                    break;
+
+            case 2: if (strcmp(func, "push") == 0)
+                    {
+                        fprintf(fw, "%d ", CMD_PUSH);
+                        fprintf(fw, "%d\n", arg);
+                    }
+                    else
+                    {
+                        fprintf(fw, "ERROR\n");
+                        printf("ERROR\n");
+                        free(word);
+                        return ERROR_ASM;
+                    }
+                    break;
+
+            default: fprintf(fw, "ERROR\n");
+                     printf("ERROR\n");
+                     free(word);
+                     return ERROR_ASM;
         }
 
         free(word);
