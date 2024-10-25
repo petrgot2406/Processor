@@ -51,27 +51,27 @@ int main()
         }
         else if (numb == 1)
         {
-            if (strcmp(word, "add\n") == 0)
+            if (strcmp(func, "add") == 0)
             {
                 fprintf(fw, "%d\n", CMD_ADD);
             }
-            else if (strcmp(word, "sub\n") == 0)
+            else if (strcmp(func, "sub") == 0)
             {
                 fprintf(fw, "%d\n", CMD_SUB);
             }
-            else if (strcmp(word, "mul\n") == 0)
+            else if (strcmp(func, "mul") == 0)
             {
                 fprintf(fw, "%d\n", CMD_MUL);
             }
-            else if (strcmp(word, "div\n") == 0)
+            else if (strcmp(func, "div") == 0)
             {
                 fprintf(fw, "%d\n", CMD_DIV);
             }
-            else if (strcmp(word, "out\n") == 0)
+            else if (strcmp(func, "out") == 0)
             {
                 fprintf(fw, "%d\n", CMD_OUT);
             }
-            else if (strcmp(word, "in\n") == 0)
+            else if (strcmp(func, "in") == 0)
             {
                 fprintf(fw, "%d\n", CMD_IN);
             }
@@ -92,6 +92,7 @@ int main()
         }
 
         free(word);
+        free(func);
     }
 
     free(buffer);

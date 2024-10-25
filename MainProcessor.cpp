@@ -57,6 +57,7 @@ int main()
             switch(func)
             {
                 case CMD_PUSH: PushStack(&stack, 60);
+
                                break;
 
                 case CMD_ADD: a = PeekStack(stack);
@@ -66,6 +67,7 @@ int main()
                               PopStack(&stack);
 
                               PushStack(&stack, a + b);
+
                               break;
 
                 case CMD_SUB: a = PeekStack(stack);
@@ -75,6 +77,7 @@ int main()
                               PopStack(&stack);
 
                               PushStack(&stack, a - b);
+
                               break;
 
                 case CMD_MUL: a = PeekStack(stack);
@@ -84,6 +87,7 @@ int main()
                               PopStack(&stack);
 
                               PushStack(&stack, a * b);
+
                               break;
 
                 case CMD_DIV: a = PeekStack(stack);
@@ -93,15 +97,18 @@ int main()
                               PopStack(&stack);
 
                               PushStack(&stack, a / b);
+
                               break;
 
                 case CMD_OUT: DumpStack(stack);
+
                               break;
 
                 case CMD_IN: stack_element_t elem;
                              printf("Input new element: ");
                              scanf("%d", &elem);
                              PushStack(&stack, elem);
+
                              break;
 
                 default: printf("ERROR\n");
