@@ -22,7 +22,7 @@ Error_stack PushStack(Stack_t* stack, stack_element_t new_elem)
         ReallocStackData(stack);
     }
 
-    printf("push %d\n", new_elem);
+    //printf("push %d\n", new_elem);
     *((stack_element_t*)(stack->data + 1) + stack->size) = new_elem;
 
     stack->size++;
@@ -46,7 +46,7 @@ Error_stack PopStack(Stack_t* stack)
         stack->capacity /= 2;
         ReallocStackData(stack);
     }
-    printf("pop\n");
+    //printf("pop\n");
 
     *((stack_element_t*)(stack->data + 1) + stack->size) = 0;
 

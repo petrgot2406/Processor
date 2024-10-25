@@ -103,7 +103,8 @@ Error_processor Processor(File_t code, Stack_t* stack)
 
                               break;
 
-                case CMD_OUT: DumpStack(*stack);
+                case CMD_OUT: a = PeekStack(*stack);
+                              printf("%d\n", a);
 
                               break;
 
