@@ -101,5 +101,5 @@ int main()
     fclose(fr);
     fclose(fw);
 
-    return COMPILE_OK;
+    return ASSEMBLE_OK;
 }

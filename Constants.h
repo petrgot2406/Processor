@@ -34,9 +34,9 @@ enum Commands
     CMD_IN = 7
 };
 
-enum Error_compiler
+enum Error_assembler
 {
-    COMPILE_OK = 0,
+    ASSEMBLE_OK = 0,
     ERROR_ASM = 1
 };
 
