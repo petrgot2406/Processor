@@ -4,9 +4,7 @@
 #include <assert.h>
 #include "Constants.h"
 #include "Struct.h"
-#include "StackFunc.h"
-#include "StackUtils.h"
-#include "StackHash.h"
+#include "Stack.h"
 #include "ReadFromFile.h"
 
 int main()
