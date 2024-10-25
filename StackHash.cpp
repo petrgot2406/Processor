@@ -34,7 +34,8 @@ Error_stack ChangeStackHash(Stack_t* stack)
 
     stack->hash_struct.data_hash = Hash((char*)stack->data,
                                       2 * sizeof(canary_type) +
-                                      stack->capacity * sizeof(stack_element_t));
+                                      stack->capacity *
+                                      sizeof(stack_element_t));
 
     return FOUND_OK;
 }

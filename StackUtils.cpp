@@ -83,14 +83,16 @@ Error_stack CheckStack(Stack_t* stack)
 Error_stack ReallocStackData(Stack_t* stack)
 {
     stack->data = (canary_type*)realloc(stack->data,
-                                      sizeof(canary_type) * 2 +
-                                      stack->capacity * sizeof(stack_element_t));
+                                        sizeof(canary_type) * 2 +
+                                        stack->capacity *
+                                        sizeof(stack_element_t));
 
     stack->data[0] = canary;
 
     *((canary_type*)((char*)stack->data +
                      sizeof(canary_type) +
-                     stack->capacity * sizeof(stack_element_t))) = canary;
+                     stack->capacity *
+                     sizeof(stack_element_t))) = canary;
 
     ChangeStackHash(stack);
 

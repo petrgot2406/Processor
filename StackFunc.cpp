@@ -41,7 +41,8 @@ Error_stack PopStack(Stack_t* stack)
         return stack_error;
     }
 
-    if (4 * (stack->size - 2) < stack->capacity && stack->size >= 3)
+    if (4 * (stack->size - 2) < stack->capacity &&
+                  stack->size >= 3)
     {
         stack->capacity /= 2;
         ReallocStackData(stack);
@@ -72,11 +73,14 @@ Error_stack InitStack(Stack_t* stack)
     stack->size = 0;
 
     stack->data = (canary_type*)calloc(sizeof(canary_type) * 2 +
-                                     stack->capacity * sizeof(stack_element_t), 1);
+                                       stack->capacity *
+                                       sizeof(stack_element_t), 1);
 
     stack->data[0] = canary;
-    *((canary_type*)((char*)stack->data + sizeof(canary_type) +
-                      stack->capacity * sizeof(stack_element_t))) = canary;
+    *((canary_type*)((char*)stack->data +
+                     sizeof(canary_type) +
+                     stack->capacity *
+                     sizeof(stack_element_t))) = canary;
 
     ChangeStackHash(stack);
 
