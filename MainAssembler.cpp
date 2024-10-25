@@ -20,7 +20,7 @@ int main()
     printf("There are %d symbols\n", file_size);
     printf("There are %d strings\n", str_num);
 
-    char* buffer = (char*)calloc(file_size, sizeof(char));
+    char* buffer = (char*)calloc(file_size + 1, sizeof(char));
 
     size_t* lineslen = (size_t*)calloc(str_num, sizeof(size_t));
 

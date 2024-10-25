@@ -22,7 +22,7 @@ int main()
     size_t file_size = num_of_symbols_in_file(code_file_name);
     size_t str_num = num_of_strings_in_file(code_file_name);
 
-    char* buffer = (char*)calloc(file_size, sizeof(char));
+    char* buffer = (char*)calloc(file_size + 1, sizeof(char));
 
     size_t* lineslen = (size_t*)calloc(str_num, sizeof(size_t));
 
