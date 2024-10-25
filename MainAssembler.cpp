@@ -34,6 +34,11 @@ Error_assembler Assembler(File_t program, FILE* fw)
 {
     for (size_t i = 0; i < program.str_num; i++)
     {
+        while (program.lineslen[i] == 0)
+        {
+            i++;
+        }
+
         char* word = (char*)calloc(program.lineslen[i], sizeof(char));
 
         for (size_t j = 0; j < program.lineslen[i] + 1; j++)

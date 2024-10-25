@@ -85,7 +85,7 @@ Error_processor Processor(File_t code, Stack_t* stack)
                               b = PeekStack(*stack);
                               PopStack(stack);
 
-                              PushStack(stack, a / b);
+                              PushStack(stack, b / a);
                               break;
 
                 case CMD_OUT: a = PeekStack(*stack);

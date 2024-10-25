@@ -1,4 +1,22 @@
-push 12
-push 34
-mul
+push 60
+
+push 90
+
+
+
+
+
+add
+
+
+
+
+
+
+
+
+
+
+
+
 out

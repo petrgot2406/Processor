@@ -29,4 +29,19 @@ struct File_t
     char** lines;
 };
 
+struct Registers
+{
+    int ax;
+    int bx;
+    int cx;
+    int dx;
+};
+
+struct SPU
+{
+    struct Stack_t stack;
+    struct File_t code;
+    struct Registers registers;
+};
+
 #endif
