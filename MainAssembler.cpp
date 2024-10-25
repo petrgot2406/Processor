@@ -8,35 +8,43 @@
 
 int main()
 {
-    const char* program_file_name = "program.asm";
-    const char* code_file_name = "code.asm";
+    struct File program = {};
+    struct File code = {};
 
-    FILE* fr = fopen(program_file_name, "r");
-    FILE* fw = fopen(code_file_name, "w");
+    program.file_name = "program.asm";
 
-    size_t file_size = num_of_symbols_in_file(program_file_name);
-    size_t str_num = num_of_strings_in_file(program_file_name);
+    program.file_size = num_of_symbols_in_file(program.file_name);
+    program.str_num = num_of_strings_in_file(program.file_name);
 
-    char* buffer = (char*)calloc(file_size + 1, sizeof(char));
+    program.buffer = (char*)calloc(program.file_size + 1, sizeof(char));
 
-    size_t* lineslen = (size_t*)calloc(str_num, sizeof(size_t));
+    program.lineslen = (size_t*)calloc(program.str_num, sizeof(size_t));
 
-    char** lines = (char**)calloc(str_num + 1, sizeof(char*));
+    program.lines = (char**)calloc(program.str_num + 1, sizeof(char*));
 
-    Read_file_to_buffer(program_file_name, file_size, buffer);
-    Put_lineslen_for_all_lines(buffer, file_size, lineslen);
-    Put_pointers_to_lines(buffer, file_size, str_num, lines);
 
-    for (size_t i = 0; i < str_num; i++)
+    code.file_name = "code.asm";
+
+    FILE* fr = fopen(program.file_name, "r");
+
+    Read_file_to_buffer(program.file_name, program.file_size, program.buffer);
+    Put_lineslen_for_all_lines(program.buffer, program.file_size, program.lineslen);
+    Put_pointers_to_lines(program.buffer, program.file_size, program.str_num, program.lines);
+
+    fclose(fr);
+
+    FILE* fw = fopen(code.file_name, "w");
+
+    for (size_t i = 0; i < program.str_num; i++)
     {
-        char* word = (char*)calloc(lineslen[i], sizeof(char));
+        char* word = (char*)calloc(program.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < lineslen[i] + 1; j++)
+        for (size_t j = 0; j < program.lineslen[i] + 1; j++)
         {
-            word[j] = lines[i][j];
+            word[j] = program.lines[i][j];
         }
 
-        char* func = (char*)calloc(lineslen[i], sizeof(char));
+        char* func = (char*)calloc(program.lineslen[i], sizeof(char));
         int arg = 0;
 
         int numb = sscanf(word, "%s %d", func, &arg);
@@ -95,12 +103,11 @@ int main()
         free(func);
     }
 
-    free(buffer);
-    free(lineslen);
-    free(lines);
-
-    fclose(fr);
     fclose(fw);
+
+    free(program.buffer);
+    free(program.lineslen);
+    free(program.lines);
 
     return ASSEMBLE_OK;
 }

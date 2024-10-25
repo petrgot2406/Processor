@@ -19,4 +19,14 @@ struct Stack_t
     canary_type canary_end;
 };
 
+struct File
+{
+    const char* file_name;
+    size_t file_size;
+    size_t str_num;
+    char* buffer;
+    size_t* lineslen;
+    char** lines;
+};
+
 #endif

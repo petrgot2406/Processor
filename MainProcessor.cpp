@@ -9,34 +9,38 @@
 
 int main()
 {
+    struct File code = {};
+
     struct Stack_t stack = {};
 
     InitStack(&stack);
 
-    const char* code_file_name = "code.asm";
+    code.file_name = "code.asm";
 
-    FILE* fr = fopen(code_file_name, "r");
+    code.file_size = num_of_symbols_in_file(code.file_name);
+    code.str_num = num_of_strings_in_file(code.file_name);
 
-    size_t file_size = num_of_symbols_in_file(code_file_name);
-    size_t str_num = num_of_strings_in_file(code_file_name);
+    code.buffer = (char*)calloc(code.file_size + 1, sizeof(char));
 
-    char* buffer = (char*)calloc(file_size + 1, sizeof(char));
+    code.lineslen = (size_t*)calloc(code.str_num, sizeof(size_t));
 
-    size_t* lineslen = (size_t*)calloc(str_num, sizeof(size_t));
+    code.lines = (char**)calloc(code.str_num + 1, sizeof(char*));
 
-    char** lines = (char**)calloc(str_num + 1, sizeof(char*));
+    FILE* fr = fopen(code.file_name, "r");
 
-    Read_file_to_buffer(code_file_name, file_size, buffer);
-    Put_lineslen_for_all_lines(buffer, file_size, lineslen);
-    Put_pointers_to_lines(buffer, file_size, str_num, lines);
+    Read_file_to_buffer(code.file_name, code.file_size, code.buffer);
+    Put_lineslen_for_all_lines(code.buffer, code.file_size, code.lineslen);
+    Put_pointers_to_lines(code.buffer, code.file_size, code.str_num, code.lines);
 
-    for (size_t i = 0; i < str_num; i++)
+    fclose(fr);
+
+    for (size_t i = 0; i < code.str_num; i++)
     {
-        char* word = (char*)calloc(lineslen[i], sizeof(char));
+        char* word = (char*)calloc(code.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < lineslen[i] + 1; j++)
+        for (size_t j = 0; j < code.lineslen[i] + 1; j++)
         {
-            word[j] = lines[i][j];
+            word[j] = code.lines[i][j];
         }
 
         stack_element_t a, b;
@@ -123,8 +127,6 @@ int main()
 
         free(word);
     }
-
-    fclose(fr);
 
     return PROCESSED_OK;
 }
