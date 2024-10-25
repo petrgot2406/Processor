@@ -103,6 +103,7 @@ int main()
                 case CMD_IN: stack_element_t elem;
                              scanf("%d", &elem);
                              PushStack(&stack, elem);
+                             break;
 
                 default: printf("ERROR\n");
                          return 1;
