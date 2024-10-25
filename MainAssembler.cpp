@@ -12,16 +12,16 @@ int main()
 {
     struct File_t program = {};
     struct File_t code = {};
+    struct File_t code_array = {};
 
     program.file_name = "program.asm";
     code.file_name = "code.asm";
-
-    const char* code_array_file_name = "code_array.asm";
+    code_array.file_name = "code_array.asm";
 
     Put_file_to_structure(&program);
 
     FILE* fw1 = fopen(code.file_name, "w");
-    FILE* fw2 = fopen(code_array_file_name, "w");
+    FILE* fw2 = fopen(code_array.file_name, "w");
 
     Error_assembler err_asm = Assembler(program, fw1, fw2);
 
