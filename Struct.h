@@ -40,7 +40,7 @@ struct Registers
 struct SPU
 {
     Stack_t stack;
-    File_t code;
+    int* arrcode;
     Registers registers;
 };
 

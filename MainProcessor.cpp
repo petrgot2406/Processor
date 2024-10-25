@@ -7,7 +7,8 @@
 #include "Stack.h"
 #include "ReadFromFile.h"
 
-Error_processor Processor(SPU* spu);
+Error_processor PushCodeToArray(SPU* spu, File_t code);
+Error_processor Processor(SPU* spu, File_t code);
 
 int main()
 {
@@ -15,13 +16,17 @@ int main()
 
     InitStack(&spu.stack);
 
-    //struct File_t code = {};
+    struct File_t code = {};
 
-    spu.code.file_name = "code.asm";
+    code.file_name = "code_array.asm";
 
-    Put_file_to_structure(&spu.code);
+    Put_file_to_structure(&code);
 
-    Error_processor err_proc = Processor(&spu);
+    spu.arrcode = (int*)calloc(code.str_num, sizeof(int));
+
+    PushCodeToArray(&spu, code);
+
+    Error_processor err_proc = Processor(&spu, code);
 
     if (err_proc != PROCESSED_OK)
     {
@@ -31,97 +36,96 @@ int main()
     return 0;
 }
 
-Error_processor Processor(SPU* spu)
+Error_processor PushCodeToArray(SPU* spu, File_t code)
 {
-    for (size_t i = 0; i < spu->code.str_num; i++)
+    for (size_t i = 0; i < code.str_num; i++)
     {
-        char* word = (char*)calloc(spu->code.lineslen[i], sizeof(char));
+        char* word = (char*)calloc(code.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < spu->code.lineslen[i] + 1; j++)
+        for (size_t j = 0; j < code.lineslen[i] + 1; j++)
         {
-            word[j] = spu->code.lines[i][j];
+            word[j] = code.lines[i][j];
         }
 
-        stack_element_t a, b;
-
-        int func, arg;
-
-        int numb = sscanf(word, "%d %d", &func, &arg);
-
-        if (numb == 1)
+        if (sscanf(word, "%d", &spu->arrcode[i]) != 1)
         {
-            switch(func)
-            {
-                case CMD_ADD: a = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              b = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              PushStack(&spu->stack, a + b);
-                              break;
-
-                case CMD_SUB: a = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              b = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              PushStack(&spu->stack, a - b);
-                              break;
-
-                case CMD_MUL: a = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              b = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              PushStack(&spu->stack, a * b);
-                              break;
-
-                case CMD_DIV: a = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              b = PeekStack(spu->stack);
-                              PopStack(&spu->stack);
-
-                              PushStack(&spu->stack, b / a);
-                              break;
-
-                case CMD_OUT: a = PeekStack(spu->stack);
-                              printf("Result = %d\n", a);
-                              break;
-
-                case CMD_IN: stack_element_t elem;
-                             printf("Input new element: ");
-                             scanf("%d", &elem);
-                             PushStack(&spu->stack, elem);
-                             break;
-
-                default: printf("ERROR\n");
-                         return ERROR_PROCESS;
-            }
+            printf("ERROR\n");
+            return ERROR_PROCESS;
         }
-        else if (numb == 2)
+
+        free(word);
+    }
+
+    return PROCESSED_OK;
+}
+
+Error_processor Processor(SPU* spu, File_t code)
+{
+
+    for (size_t i = 0; i < code.str_num; i++)
+    {
+        if (spu->arrcode[i] == 1)
         {
-            if (func == CMD_PUSH)
-            {
-                PushStack(&spu->stack, arg);
-            }
-            else
+            stack_element_t elem = spu->arrcode[i + 1];
+            PushStack(&spu->stack, elem);
+        }
+        else if (spu->arrcode[i] == 2)
+        {
+            stack_element_t a = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            stack_element_t b = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            PushStack(&spu->stack, a + b);
+        }
+        else if (spu->arrcode[i] == 3)
+        {
+            stack_element_t a = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            stack_element_t b = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            PushStack(&spu->stack, b - a);
+        }
+        else if (spu->arrcode[i] == 4)
+        {
+            stack_element_t a = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            stack_element_t b = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            PushStack(&spu->stack, a * b);
+        }
+        else if (spu->arrcode[i] == 5)
+        {
+            stack_element_t a = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            stack_element_t b = PeekStack(spu->stack);
+            PopStack(&spu->stack);
+            PushStack(&spu->stack, b / a);
+        }
+        else if (spu->arrcode[i] == 6)
+        {
+            stack_element_t a = PeekStack(spu->stack);
+            printf("%d\n", a);
+        }
+        else if (spu->arrcode[i] == 7)
+        {
+            stack_element_t elem;
+            scanf("%d", &elem);
+            PushStack(&spu->stack, elem);
+        }
+        else
+        {
+            if (spu->arrcode[i - 1] != 1 &&
+                spu->arrcode[i - 1] != 2 &&
+                spu->arrcode[i - 1] != 3 &&
+                spu->arrcode[i - 1] != 4 &&
+                spu->arrcode[i - 1] != 5 &&
+                spu->arrcode[i - 1] != 6 &&
+                spu->arrcode[i - 1] != 7)
             {
                 printf("ERROR\n");
                 return ERROR_PROCESS;
             }
         }
-        else
-        {
-            printf("ERROR\n");
-            free(word);
-            return ERROR_PROCESS;
-        }
-
-        free(word);
     }
 
     return PROCESSED_OK;
