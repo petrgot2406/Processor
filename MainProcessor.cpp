@@ -67,8 +67,47 @@ Error_processor Processor(SPU* spu, File_t code)
     {
         if (spu->arrcode[i] == 1)
         {
-            stack_element_t elem = spu->arrcode[i + 1];
-            PushStack(&spu->stack, elem);
+            if (spu->arrcode[i + 2] == 0)
+            {
+                if (spu->arrcode[i + 1] == AX ||
+                    spu->arrcode[i + 1] == BX ||
+                    spu->arrcode[i + 1] == CX ||
+                    spu->arrcode[i + 1] == DX)
+                {
+                    if (spu->arrcode[i + 1] == AX)
+                    {
+                        PushStack(&spu->stack, spu->registers.ax);
+                        i += 2;
+                    }
+                    else if (spu->arrcode[i + 1] == BX)
+                    {
+                        PushStack(&spu->stack, spu->registers.bx);
+                        i += 2;
+                    }
+                    else if (spu->arrcode[i + 1] == CX)
+                    {
+                        PushStack(&spu->stack, spu->registers.cx);
+                        i += 2;
+                    }
+                    else if (spu->arrcode[i + 1] == DX)
+                    {
+                        PushStack(&spu->stack, spu->registers.dx);
+                        i += 2;
+                    }
+                }
+                else
+                {
+                    stack_element_t elem = spu->arrcode[i + 1];
+                    PushStack(&spu->stack, elem);
+                    i++;
+                }
+            }
+            else
+            {
+                stack_element_t elem = spu->arrcode[i + 1];
+                PushStack(&spu->stack, elem);
+                i++;
+            }
         }
         else if (spu->arrcode[i] == 2)
         {
@@ -113,6 +152,50 @@ Error_processor Processor(SPU* spu, File_t code)
             scanf("%d", &elem);
             PushStack(&spu->stack, elem);
         }
+        else if (spu->arrcode[i] == 8)
+        {
+            if (spu->arrcode[i + 2] == 0)
+            {
+                if (spu->arrcode[i + 1] == AX ||
+                    spu->arrcode[i + 1] == BX ||
+                    spu->arrcode[i + 1] == CX ||
+                    spu->arrcode[i + 1] == DX)
+                {
+                    if (spu->arrcode[i + 1] == AX)
+                    {
+                        spu->registers.ax = PeekStack(spu->stack);
+                        PopStack(&spu->stack);
+                        i += 2;
+                    }
+                    else if (spu->arrcode[i + 1] == BX)
+                    {
+                        spu->registers.bx = PeekStack(spu->stack);
+                        PopStack(&spu->stack);
+                        i += 2;
+                    }
+                    else if (spu->arrcode[i + 1] == CX)
+                    {
+                        spu->registers.cx = PeekStack(spu->stack);
+                        PopStack(&spu->stack);
+                        i += 2;
+                    }
+                    else if (spu->arrcode[i + 1] == DX)
+                    {
+                        spu->registers.dx = PeekStack(spu->stack);
+                        PopStack(&spu->stack);
+                        i += 2;
+                    }
+                }
+                else
+                {
+                    PopStack(&spu->stack);
+                }
+            }
+            else
+            {
+                PopStack(&spu->stack);
+            }
+        }
         else
         {
             if (spu->arrcode[i - 1] != 1 &&
@@ -121,7 +204,8 @@ Error_processor Processor(SPU* spu, File_t code)
                 spu->arrcode[i - 1] != 4 &&
                 spu->arrcode[i - 1] != 5 &&
                 spu->arrcode[i - 1] != 6 &&
-                spu->arrcode[i - 1] != 7)
+                spu->arrcode[i - 1] != 7 &&
+                spu->arrcode[i - 1] != 8)
             {
                 printf("ERROR\n");
                 return ERROR_PROCESS;

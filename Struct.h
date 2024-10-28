@@ -19,10 +19,16 @@ struct Stack_t
     canary_type canary_end;
 };
 
-struct Label
+struct Labels_t
 {
     size_t ip;
     char* name;
+};
+
+struct Table_labels {
+    Labels_t* array;
+    size_t size;
+    size_t max_len;
 };
 
 struct File_t

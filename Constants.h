@@ -43,7 +43,16 @@ enum Commands
     CMD_MUL  = 4,
     CMD_DIV  = 5,
     CMD_OUT  = 6,
-    CMD_IN   = 7
+    CMD_IN   = 7,
+    CMD_POP  = 8
+};
+
+enum Registers_t
+{
+    AX = 0,
+    BX = 1,
+    CX = 2,
+    DX = 3
 };
 
 enum Labels
