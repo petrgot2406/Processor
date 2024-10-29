@@ -52,6 +52,17 @@ Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
             word[j] = program.lines[i][j];
         }
 
+        while (word[program.lineslen[i] - 1] == ':')
+        {
+            word = (char*)realloc(word, program.lineslen[i + 1] * sizeof(char));
+
+            for (size_t j = 0; j < program.lineslen[i + 1] + 1; j++)
+            {
+                word[j] = program.lines[i + 1][j];
+            }
+            i++;
+        }
+
         char* func1 = (char*)calloc(program.lineslen[i], sizeof(char));
         char* func2 = (char*)calloc(program.lineslen[i], sizeof(char));
         int arg = 0;
@@ -100,7 +111,7 @@ Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
             {
                 fprintf(fw1, "ERROR\n");
                 fprintf(fw2, "ERROR\n");
-                printf("ERROR\n");
+                printf("ERRORrrr\n");
                 free(word);
                 free(func1);
                 free(func2);
