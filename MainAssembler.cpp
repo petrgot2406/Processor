@@ -131,10 +131,7 @@ Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
             word[j] = program.lines[i][j];
         }
 
-        if (word[program.lineslen[i] - 1] == ':')
-        {
-        }
-        else
+        if (word[program.lineslen[i] - 1] != ':')
         {
             char* func1 = (char*)calloc(program.lineslen[i], sizeof(char));
             char* func2 = (char*)calloc(program.lineslen[i], sizeof(char));
