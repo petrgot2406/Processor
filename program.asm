@@ -6,9 +6,11 @@ push 50
 red:
 pop cx
 pop bx
-frrfglsfjsbn:
+green:
 pop ax
 push ax
+blue:
 push bx
 add
 out
+jmp green

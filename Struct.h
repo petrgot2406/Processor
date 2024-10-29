@@ -25,7 +25,8 @@ struct Labels_t
     char* name;
 };
 
-struct Table_labels {
+struct Table_labels
+{
     Labels_t* array;
     size_t size;
     size_t max_len;

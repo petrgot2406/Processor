@@ -42,6 +42,7 @@ int main()
 
     fclose(fw1);
     fclose(fw2);
+
     free(labels);
 
     return 0;
@@ -94,7 +95,7 @@ size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
                 word[j] = program.lines[i][j];
             }
 
-            labels[counter_of_labels].ip = i + 1;
+            labels[counter_of_labels].ip = i + 2;
 
             labels[counter_of_labels].name = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
 
@@ -114,7 +115,13 @@ size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
 Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2)
 {
     size_t labels_num = amount_of_labels_in_program(program, labels);
+
     printf("%d\n", labels_num);
+
+    for (size_t i = 0; i < labels_num; i++)
+    {
+        printf("%d %s\n", labels[i].ip, labels[i].name);
+    }
 
     for (size_t i = 0; i < program.str_num; i++)
     {
@@ -310,36 +317,106 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 {
                     fprintf(fw1, "%d\n", CMD_JA);
                     fprintf(fw2, "%d\n", CMD_JA);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else if (strcmp(func1, "jae") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_JAE);
                     fprintf(fw2, "%d\n", CMD_JAE);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else if (strcmp(func1, "jb") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_JB);
                     fprintf(fw2, "%d\n", CMD_JB);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else if (strcmp(func1, "jbe") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_JBE);
                     fprintf(fw2, "%d\n", CMD_JBE);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else if (strcmp(func1, "je") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_JE);
                     fprintf(fw2, "%d\n", CMD_JE);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else if (strcmp(func1, "jne") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_JNE);
                     fprintf(fw2, "%d\n", CMD_JNE);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else if (strcmp(func1, "jmp") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JMP);
+                    fprintf(fw1, "%d ", CMD_JMP);
                     fprintf(fw2, "%d\n", CMD_JMP);
+
+                    for (size_t j = 0; j < labels_num; j++)
+                    {
+                        if (strcmp(func2, labels[j].name))
+                        {
+                            fprintf(fw1, "%d\n", labels[j].ip);
+                            fprintf(fw2, "%d\n", labels[j].ip);
+                            break;
+                        }
+                    }
                 }
                 else
                 {
