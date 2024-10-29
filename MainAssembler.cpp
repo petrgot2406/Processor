@@ -8,7 +8,7 @@
 
 size_t amount_of_this_symbol(File_t program, char c);
 Error_assembler AssembleLabels(File_t program, Labels_t* labels);
-Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2);
+Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2);
 
 int main()
 {
@@ -30,7 +30,9 @@ int main()
 
     Labels_t* labels = (Labels_t*)calloc(dota2, sizeof(Labels_t));
 
-    Error_assembler err_asm = Assembler(program, labels, fw1, fw2);
+    AssembleLabels(program, labels);
+
+    Error_assembler err_asm = Assembler(program, fw1, fw2);
 
     if (err_asm != ASSEMBLED_OK)
     {
@@ -112,9 +114,8 @@ Error_assembler AssembleLabels(File_t program, Labels_t* labels)
     return ASSEMBLED_OK;
 }
 
-Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2)
+Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
 {
-    size_t num_of_label = 0;
 
     for (size_t i = 0; i < program.str_num; i++)
     {
@@ -132,25 +133,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
 
         if (word[program.lineslen[i] - 1] == ':')
         {
-            word = (char*)realloc(word, program.lineslen[i] * sizeof(char));
-
-            for (size_t j = 0; j < program.lineslen[i]; j++)
-            {
-                word[j] = program.lines[i][j];
-            }
-
-            labels[num_of_label].ip = i + 1;
-
-            labels[num_of_label].name = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
-
-            for (size_t k = 0; k < program.lineslen[i] - 1; k++)
-            {
-                labels[num_of_label].name[k] = word[k];
-            }
-
-            printf("%s\n", labels[num_of_label].name);
-
-            num_of_label++;
         }
         else
         {
