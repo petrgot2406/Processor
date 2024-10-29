@@ -7,8 +7,8 @@
 #include "ReadFromFile.h"
 
 size_t amount_of_this_symbol(File_t program, char c);
-Error_assembler AssembleLabels(File_t program, Labels_t* labels);
-Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2);
+size_t amount_of_labels_in_program(File_t program, Labels_t* labels);
+Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2);
 
 int main()
 {
@@ -30,9 +30,7 @@ int main()
 
     Labels_t* labels = (Labels_t*)calloc(dota2, sizeof(Labels_t));
 
-    AssembleLabels(program, labels);
-
-    Error_assembler err_asm = Assembler(program, fw1, fw2);
+    Error_assembler err_asm = Assembler(program, labels, fw1, fw2);
 
     if (err_asm != ASSEMBLED_OK)
     {
@@ -69,9 +67,9 @@ size_t amount_of_this_symbol(File_t program, char c)
     return counter;
 }
 
-Error_assembler AssembleLabels(File_t program, Labels_t* labels)
+size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
 {
-    size_t num_of_label = 0;
+    size_t counter_of_labels = 0;
 
     for (size_t i = 0; i < program.str_num; i++)
     {
@@ -96,26 +94,27 @@ Error_assembler AssembleLabels(File_t program, Labels_t* labels)
                 word[j] = program.lines[i][j];
             }
 
-            labels[num_of_label].ip = i + 1;
+            labels[counter_of_labels].ip = i + 1;
 
-            labels[num_of_label].name = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
+            labels[counter_of_labels].name = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
 
             for (size_t k = 0; k < program.lineslen[i] - 1; k++)
             {
-                labels[num_of_label].name[k] = word[k];
+                labels[counter_of_labels].name[k] = word[k];
             }
 
-            printf("%s\n", labels[num_of_label].name);
+            printf("%s\n", labels[counter_of_labels].name);
 
-            num_of_label++;
+            counter_of_labels++;
         }
     }
-
-    return ASSEMBLED_OK;
+    return counter_of_labels;
 }
 
-Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
+Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2)
 {
+    size_t labels_num = amount_of_labels_in_program(program, labels);
+    printf("%d\n", labels_num);
 
     for (size_t i = 0; i < program.str_num; i++)
     {
