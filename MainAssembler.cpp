@@ -38,6 +38,10 @@ int main()
 
 Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
 {
+    size_t num_of_label = 0;
+
+    Labels_t labels[100];
+
     for (size_t i = 0; i < program.str_num; i++)
     {
         while (program.lineslen[i] == 0)
@@ -52,7 +56,7 @@ Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
             word[j] = program.lines[i][j];
         }
 
-        while (word[program.lineslen[i] - 1] == ':')
+    while (word[program.lineslen[i] - 1] == ':')
         {
             word = (char*)realloc(word, program.lineslen[i + 1] * sizeof(char));
 
@@ -60,6 +64,20 @@ Error_assembler Assembler(File_t program, FILE* fw1, FILE* fw2)
             {
                 word[j] = program.lines[i + 1][j];
             }
+
+            labels[num_of_label].ip = i;
+
+            labels[num_of_label].name = (char*)calloc(program.lineslen[i + 1] - 1, sizeof(char));
+
+            for (size_t k = 0; k < program.lineslen[i] - 1; k++)
+            {
+                labels[num_of_label].name[k] = word[k];
+            }
+
+            printf("%s\n", labels[num_of_label].name);
+
+            num_of_label++;
+
             i++;
         }
 
