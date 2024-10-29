@@ -44,7 +44,14 @@ enum Commands
     CMD_DIV  = 5,
     CMD_OUT  = 6,
     CMD_IN   = 7,
-    CMD_POP  = 8
+    CMD_POP  = 8,
+    CMD_JA   = 9,
+    CMD_JAE  = 10,
+    CMD_JB   = 11,
+    CMD_JBE  = 12,
+    CMD_JE   = 13,
+    CMD_JNE  = 14,
+    CMD_JMP  = 15
 };
 
 enum Registers_t

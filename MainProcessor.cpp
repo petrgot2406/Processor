@@ -65,7 +65,7 @@ Error_processor Processor(SPU* spu, File_t code)
 {
     for (size_t i = 0; i < code.str_num; i++)
     {
-        if (spu->arrcode[i] == 1)
+        if (spu->arrcode[i] == CMD_PUSH)
         {
             if (spu->arrcode[i + 2] == 0)
             {
@@ -109,7 +109,7 @@ Error_processor Processor(SPU* spu, File_t code)
                 i++;
             }
         }
-        else if (spu->arrcode[i] == 2)
+        else if (spu->arrcode[i] == CMD_ADD)
         {
             stack_element_t a = PeekStack(spu->stack);
             PopStack(&spu->stack);
@@ -117,7 +117,7 @@ Error_processor Processor(SPU* spu, File_t code)
             PopStack(&spu->stack);
             PushStack(&spu->stack, a + b);
         }
-        else if (spu->arrcode[i] == 3)
+        else if (spu->arrcode[i] == CMD_SUB)
         {
             stack_element_t a = PeekStack(spu->stack);
             PopStack(&spu->stack);
@@ -125,7 +125,7 @@ Error_processor Processor(SPU* spu, File_t code)
             PopStack(&spu->stack);
             PushStack(&spu->stack, b - a);
         }
-        else if (spu->arrcode[i] == 4)
+        else if (spu->arrcode[i] == CMD_MUL)
         {
             stack_element_t a = PeekStack(spu->stack);
             PopStack(&spu->stack);
@@ -133,7 +133,7 @@ Error_processor Processor(SPU* spu, File_t code)
             PopStack(&spu->stack);
             PushStack(&spu->stack, a * b);
         }
-        else if (spu->arrcode[i] == 5)
+        else if (spu->arrcode[i] == CMD_DIV)
         {
             stack_element_t a = PeekStack(spu->stack);
             PopStack(&spu->stack);
@@ -141,18 +141,18 @@ Error_processor Processor(SPU* spu, File_t code)
             PopStack(&spu->stack);
             PushStack(&spu->stack, b / a);
         }
-        else if (spu->arrcode[i] == 6)
+        else if (spu->arrcode[i] == CMD_OUT)
         {
             stack_element_t a = PeekStack(spu->stack);
             printf("%d\n", a);
         }
-        else if (spu->arrcode[i] == 7)
+        else if (spu->arrcode[i] == CMD_IN)
         {
             stack_element_t elem;
             scanf("%d", &elem);
             PushStack(&spu->stack, elem);
         }
-        else if (spu->arrcode[i] == 8)
+        else if (spu->arrcode[i] == CMD_POP)
         {
             if (spu->arrcode[i + 2] == 0)
             {

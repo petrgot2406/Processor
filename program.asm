@@ -4,6 +4,7 @@ push 30
 push 40
 push 50
 peq:
+efrgh:
 pop cx
 pop bx
 pop ax

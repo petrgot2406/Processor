@@ -53,6 +53,7 @@ struct SPU
 {
     Stack_t stack;
     int* arrcode;
+    Labels_t labels;
     Registers registers;
 };
 
