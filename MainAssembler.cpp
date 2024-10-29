@@ -137,7 +137,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
 
         char* word = (char*)calloc(program.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < program.lineslen[i] + 1; j++)
+        for (size_t j = 0; j < program.lineslen[i]; j++)
         {
             word[j] = program.lines[i][j];
         }
