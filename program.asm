@@ -3,11 +3,11 @@ push 20
 push 30
 push 40
 push 50
-der:
+red:
 pop cx
 pop bx
+frrfglsfjsbn:
 pop ax
-trer:
 push ax
 push bx
 add
