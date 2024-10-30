@@ -47,7 +47,7 @@ int main()
 
     printf("close\n");
 
-    //free(labels);
+    free(labels);
     printf("okeee\n");
 
     return 0;
@@ -56,7 +56,6 @@ int main()
 size_t amount_of_this_symbol(File_t program, char c)
 {
     FILE* fr = fopen(program.file_name, "r");
-
     size_t counter = 0;
 
     for (size_t i = 0; i < program.file_size; i++)
@@ -121,11 +120,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
 {
     size_t labels_num = amount_of_labels_in_program(program, labels);
 
-    printf("%d\n", labels_num);
+    printf("%lu\n", labels_num);
 
     for (size_t i = 0; i < labels_num; i++)
     {
-        printf("%s %d\n", labels[i].name, labels[i].ip);
+        printf("%s %lu\n", labels[i].name, labels[i].ip);
     }
 
     for (size_t i = 0; i < program.str_num; i++)
@@ -327,8 +326,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }
@@ -342,8 +341,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }
@@ -357,8 +356,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }
@@ -372,8 +371,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }
@@ -387,8 +386,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }
@@ -402,8 +401,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }
@@ -417,8 +416,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     {
                         if (strcmp(func2, labels[j].name))
                         {
-                            fprintf(fw1, "%d\n", labels[j].ip);
-                            fprintf(fw2, "%d\n", labels[j].ip);
+                            fprintf(fw1, "%lu\n", labels[j].ip);
+                            fprintf(fw2, "%lu\n", labels[j].ip);
                             break;
                         }
                     }

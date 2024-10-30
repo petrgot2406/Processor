@@ -8,7 +8,7 @@
 typedef long long int canary_type;
 typedef int stack_element_t;
 
-const canary_type canary = 0xDEDDEDDEDDEDDEDF;
+const canary_type canary = 0xDEDDEDDEDDEDF;
 
 enum Error_stack
 {

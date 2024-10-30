@@ -20,19 +20,19 @@ Processor.exe: MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile
 	$(CC) MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Processor.exe
 
 MainAssembler.o: MainAssembler.cpp $(HEADERS)
-	$(CC) -c MainAssembler.cpp $(LINUXFLAGS)
+	$(CC) -c MainAssembler.cpp $(WINFLAGS)
 
 MainProcessor.o: MainProcessor.cpp $(HEADERS)
-	$(CC) -c MainProcessor.cpp $(LINUXFLAGS)
+	$(CC) -c MainProcessor.cpp $(WINFLAGS)
 
 ReadFromFile.o: ReadFromFile.cpp $(HEADERS)
-	$(CC) -c ReadFromFile.cpp $(LINUXFLAGS)
+	$(CC) -c ReadFromFile.cpp $(WINFLAGS)
 
 StackFunc.o: StackFunc.cpp $(HEADERS)
-	$(CC) -c StackFunc.cpp $(LINUXFLAGS)
+	$(CC) -c StackFunc.cpp $(WINFLAGS)
 
 StackUtils.o: StackUtils.cpp $(HEADERS)
-	$(CC) -c StackUtils.cpp $(LINUXFLAGS)
+	$(CC) -c StackUtils.cpp $(WINFLAGS)
 
 StackHash.o: StackHash.cpp $(HEADERS)
-	$(CC) -c StackHash.cpp $(LINUXFLAGS)
+	$(CC) -c StackHash.cpp $(WINFLAGS)
