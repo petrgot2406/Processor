@@ -141,6 +141,72 @@ Error_processor Processor(SPU* spu)
                     return ERROR_PROCESS;
                 }
             }
+            else if (func == CMD_JA)
+            {
+                stack_element_t b = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                stack_element_t a = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                if (a > b)
+                {
+                    i = arg1;
+                }
+            }
+            else if (func == CMD_JAE)
+            {
+                stack_element_t b = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                stack_element_t a = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                if (a >= b)
+                {
+                    i = arg1;
+                }
+            }
+            else if (func == CMD_JB)
+            {
+                stack_element_t b = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                stack_element_t a = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                if (a < b)
+                {
+                    i = arg1;
+                }
+            }
+            else if (func == CMD_JBE)
+            {
+                stack_element_t b = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                stack_element_t a = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                if (a <= b)
+                {
+                    i = arg1;
+                }
+            }
+            else if (func == CMD_JE)
+            {
+                stack_element_t b = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                stack_element_t a = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                if (a == b)
+                {
+                    i = arg1;
+                }
+            }
+            else if (func == CMD_JNE)
+            {
+                stack_element_t b = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                stack_element_t a = PeekStack(spu->stack);
+                PopStack(&spu->stack);
+                if (a != b)
+                {
+                    i = arg1;
+                }
+            }
             else if (func == CMD_JMP)
             {
                 i = arg1;
