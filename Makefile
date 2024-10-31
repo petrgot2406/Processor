@@ -8,13 +8,13 @@ LINUXFLAGS = -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive
 
 
 assemble: Assembler.exe
-	.\Assembler.exe
+	./Assembler.exe
 
 Assembler.exe: MainAssembler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
 	$(CC) MainAssembler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Assembler.exe
 
 process: Processor.exe
-	.\Processor.exe
+	./Processor.exe
 
 Processor.exe: MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
 	$(CC) MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Processor.exe

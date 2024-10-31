@@ -6,8 +6,8 @@
 #include "Struct.h"
 #include "ReadFromFile.h"
 
-size_t amount_of_this_symbol(File_t program, char c);
-size_t amount_of_labels_in_program(File_t program, Labels_t* labels);
+size_t amount_of_labels(File_t program);
+Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels);
 Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2);
 
 int main()
@@ -26,7 +26,7 @@ int main()
     FILE* fw2 = fopen(code_array.file_name, "w");
 
 
-    size_t dota2 = amount_of_this_symbol(program, ':');
+    size_t dota2 = amount_of_labels(program);
 
     Labels_t* labels = (Labels_t*)calloc(dota2 + 10, sizeof(Labels_t));
 
@@ -53,26 +53,28 @@ int main()
     return 0;
 }
 
-size_t amount_of_this_symbol(File_t program, char c)
+size_t amount_of_labels(File_t program)
 {
     FILE* fr = fopen(program.file_name, "r");
     size_t counter = 0;
 
+    Read_file_to_buffer(&program);
+
     for (size_t i = 0; i < program.file_size; i++)
     {
-        if (getc(fr) == c)
+        if (program.buffer[i] == ':')
         {
             counter++;
         }
-        i++;
     }
 
+    printf("THERE ARE %u LABELS BLYAAAA\n", counter);
     fclose(fr);
 
     return counter;
 }
 
-size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
+Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
 {
     size_t counter_of_labels = 0;
 
@@ -108,17 +110,26 @@ size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
                 labels[counter_of_labels].name[j] = word[j];
             }
 
-            printf("%s %d\n", labels[counter_of_labels].name, labels[counter_of_labels].ip);
+            printf("%u %s %u\n", counter_of_labels, labels[counter_of_labels].name, labels[counter_of_labels].ip);
 
             counter_of_labels++;
         }
+
+        free(word);
     }
-    return counter_of_labels;
+    return ASSEMBLED_OK;
 }
 
 Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2)
 {
-    size_t labels_num = amount_of_labels_in_program(program, labels);
+    Error_assembler err_asm = Put_labels_to_structure(program, labels);
+
+    if (err_asm != ASSEMBLED_OK)
+    {
+        return err_asm;
+    }
+
+    size_t labels_num = amount_of_labels(program);
 
     printf("%u\n", labels_num);
 
@@ -319,12 +330,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 }
                 else if (strcmp(func1, "ja") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JA);
+                    fprintf(fw1, "%d ", CMD_JA);
                     fprintf(fw2, "%d\n", CMD_JA);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);
@@ -334,12 +345,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 }
                 else if (strcmp(func1, "jae") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JAE);
+                    fprintf(fw1, "%d ", CMD_JAE);
                     fprintf(fw2, "%d\n", CMD_JAE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);
@@ -349,12 +360,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 }
                 else if (strcmp(func1, "jb") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JB);
+                    fprintf(fw1, "%d ", CMD_JB);
                     fprintf(fw2, "%d\n", CMD_JB);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);
@@ -364,12 +375,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 }
                 else if (strcmp(func1, "jbe") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JBE);
+                    fprintf(fw1, "%d ", CMD_JBE);
                     fprintf(fw2, "%d\n", CMD_JBE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);
@@ -379,12 +390,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 }
                 else if (strcmp(func1, "je") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JE);
+                    fprintf(fw1, "%d ", CMD_JE);
                     fprintf(fw2, "%d\n", CMD_JE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);
@@ -394,12 +405,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 }
                 else if (strcmp(func1, "jne") == 0)
                 {
-                    fprintf(fw1, "%d\n", CMD_JNE);
+                    fprintf(fw1, "%d ", CMD_JNE);
                     fprintf(fw2, "%d\n", CMD_JNE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);
@@ -414,7 +425,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
-                        if (strcmp(func2, labels[j].name))
+                        if (strcmp(func2, labels[j].name) == 0)
                         {
                             fprintf(fw1, "%u\n", labels[j].ip);
                             fprintf(fw2, "%u\n", labels[j].ip);

@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define printf_stack_element(number, element) printf("stack[%d] = %d\n", number, element)
+#define printf_stack_element(number, element) printf("stack[%u] = %d\n", number, element)
 
 typedef long long int canary_type;
 typedef int stack_element_t;
