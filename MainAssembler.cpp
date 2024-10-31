@@ -30,8 +30,6 @@ int main()
 
     Labels_t* labels = (Labels_t*)calloc(dota2 + 1, sizeof(Labels_t));
 
-    //size_t n = amount_of_labels_in_program(program, labels);
-
     Error_assembler err_asm = Assembler(program, labels, fw1, fw2);
 
     if (err_asm != ASSEMBLED_OK)
@@ -49,8 +47,7 @@ int main()
 
     printf("close\n");
 
-    free((Labels_t*)labels);
-    //free(labels);
+    free(labels);
     printf("okeee\n");
 
     return 0;
