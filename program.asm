@@ -1,16 +1,7 @@
-push 10
-push 20
-push 30
-push 40
-push 50
-red:
-pop cx
-pop bx
-green:
+push 60
+push 70
+push 80
 pop ax
 push ax
-push bx
-blue:
 add
 out
-jmp green

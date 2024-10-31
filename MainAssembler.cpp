@@ -154,46 +154,46 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
 
         if (word[program.lineslen[i] - 1] != ':')
         {
-            char* func1 = (char*)calloc(program.lineslen[i], sizeof(char));
+            char* func = (char*)calloc(program.lineslen[i], sizeof(char));
             char* args = (char*)calloc(program.lineslen[i], sizeof(char));
             int arg = 0;
 
-            int numsd = sscanf(word, "%s %d", func1, &arg);
-            int numss = sscanf(word, "%s %s", func1, args);
+            int numsd = sscanf(word, "%s %d", func, &arg);
+            int numss = sscanf(word, "%s %s", func, args);
 
             if (numsd == 1 && numss == 1)
             {
-                if (strcmp(func1, "add") == 0)
+                if (strcmp(func, "add") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_ADD);
                     fprintf(fw2, "%d\n", CMD_ADD);
                 }
-                else if (strcmp(func1, "sub") == 0)
+                else if (strcmp(func, "sub") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_SUB);
                     fprintf(fw2, "%d\n", CMD_SUB);
                 }
-                else if (strcmp(func1, "mul") == 0)
+                else if (strcmp(func, "mul") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_MUL);
                     fprintf(fw2, "%d\n", CMD_MUL);
                 }
-                else if (strcmp(func1, "div") == 0)
+                else if (strcmp(func, "div") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_DIV);
                     fprintf(fw2, "%d\n", CMD_DIV);
                 }
-                else if (strcmp(func1, "out") == 0)
+                else if (strcmp(func, "out") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_OUT);
                     fprintf(fw2, "%d\n", CMD_OUT);
                 }
-                else if (strcmp(func1, "in") == 0)
+                else if (strcmp(func, "in") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_IN);
                     fprintf(fw2, "%d\n", CMD_IN);
                 }
-                else if (strcmp(func1, "pop") == 0)
+                else if (strcmp(func, "pop") == 0)
                 {
                     fprintf(fw1, "%d\n", CMD_POP);
                     fprintf(fw2, "%d\n", CMD_POP);
@@ -204,14 +204,14 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     fprintf(fw2, "ERROR\n");
                     printf("ERRORrrr\n");
                     free(word);
-                    free(func1);
+                    free(func);
                     free(args);
                     return ERROR_ASM;
                 }
             }
             else if (numsd == 2)
             {
-                if (strcmp(func1, "push") == 0)
+                if (strcmp(func, "push") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_PUSH);
                     fprintf(fw2, "%d\n", CMD_PUSH);
@@ -225,14 +225,14 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     fprintf(fw2, "ERROR\n");
                     printf("ERROR\n");
                     free(word);
-                    free(func1);
+                    free(func);
                     free(args);
                     return ERROR_ASM;
                 }
             }
             else if (numsd == 1 && numss == 2)
             {
-                if (strcmp(func1, "push") == 0)
+                if (strcmp(func, "push") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_PUSH);
                     fprintf(fw2, "%d\n", CMD_PUSH);
@@ -242,32 +242,32 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         fprintf(fw1, "%d ", AX);
                         fprintf(fw2, "%d\n", AX);
 
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
+                        fprintf(fw1, "%d\n", 228);
+                        fprintf(fw2, "%d\n", 228);
                     }
                     else if (strcmp(args, "bx") == 0)
                     {
                         fprintf(fw1, "%d ", BX);
                         fprintf(fw2, "%d\n", BX);
 
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
+                        fprintf(fw1, "%d\n", 228);
+                        fprintf(fw2, "%d\n", 228);
                     }
                     else if (strcmp(args, "cx") == 0)
                     {
                         fprintf(fw1, "%d ", CX);
                         fprintf(fw2, "%d\n", CX);
 
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
+                        fprintf(fw1, "%d\n", 228);
+                        fprintf(fw2, "%d\n", 228);
                     }
                     else if (strcmp(args, "dx") == 0)
                     {
                         fprintf(fw1, "%d ", DX);
                         fprintf(fw2, "%d\n", DX);
 
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
+                        fprintf(fw1, "%d\n", 228);
+                        fprintf(fw2, "%d\n", 228);
                     }
                     else
                     {
@@ -275,47 +275,35 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         fprintf(fw2, "ERROR\n");
                         printf("ERROR\n");
                         free(word);
-                        free(func1);
+                        free(func);
                         free(args);
                         return ERROR_ASM;
                     }
                 }
-                else if (strcmp(func1, "pop") == 0)
+                else if (strcmp(func, "pop") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_POP);
                     fprintf(fw2, "%d\n", CMD_POP);
 
                     if (strcmp(args, "ax") == 0)
                     {
-                        fprintf(fw1, "%d ", AX);
+                        fprintf(fw1, "%d\n", AX);
                         fprintf(fw2, "%d\n", AX);
-
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
                     }
                     else if (strcmp(args, "bx") == 0)
                     {
-                        fprintf(fw1, "%d ", BX);
+                        fprintf(fw1, "%d\n", BX);
                         fprintf(fw2, "%d\n", BX);
-
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
                     }
                     else if (strcmp(args, "cx") == 0)
                     {
-                        fprintf(fw1, "%d ", CX);
+                        fprintf(fw1, "%d\n", CX);
                         fprintf(fw2, "%d\n", CX);
-
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
                     }
                     else if (strcmp(args, "dx") == 0)
                     {
-                        fprintf(fw1, "%d ", DX);
+                        fprintf(fw1, "%d\n", DX);
                         fprintf(fw2, "%d\n", DX);
-
-                        fprintf(fw1, "%d\n", 0);
-                        fprintf(fw2, "%d\n", 0);
                     }
                     else
                     {
@@ -323,12 +311,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         fprintf(fw2, "ERROR\n");
                         printf("ERROR\n");
                         free(word);
-                        free(func1);
+                        free(func);
                         free(args);
                         return ERROR_ASM;
                     }
                 }
-                else if (strcmp(func1, "ja") == 0)
+                else if (strcmp(func, "ja") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JA);
                     fprintf(fw2, "%d\n", CMD_JA);
@@ -343,7 +331,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         }
                     }
                 }
-                else if (strcmp(func1, "jae") == 0)
+                else if (strcmp(func, "jae") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JAE);
                     fprintf(fw2, "%d\n", CMD_JAE);
@@ -358,7 +346,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         }
                     }
                 }
-                else if (strcmp(func1, "jb") == 0)
+                else if (strcmp(func, "jb") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JB);
                     fprintf(fw2, "%d\n", CMD_JB);
@@ -373,7 +361,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         }
                     }
                 }
-                else if (strcmp(func1, "jbe") == 0)
+                else if (strcmp(func, "jbe") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JBE);
                     fprintf(fw2, "%d\n", CMD_JBE);
@@ -388,7 +376,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         }
                     }
                 }
-                else if (strcmp(func1, "je") == 0)
+                else if (strcmp(func, "je") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JE);
                     fprintf(fw2, "%d\n", CMD_JE);
@@ -403,7 +391,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         }
                     }
                 }
-                else if (strcmp(func1, "jne") == 0)
+                else if (strcmp(func, "jne") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JNE);
                     fprintf(fw2, "%d\n", CMD_JNE);
@@ -418,7 +406,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                         }
                     }
                 }
-                else if (strcmp(func1, "jmp") == 0)
+                else if (strcmp(func, "jmp") == 0)
                 {
                     fprintf(fw1, "%d ", CMD_JMP);
                     fprintf(fw2, "%d\n", CMD_JMP);
@@ -439,7 +427,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                     fprintf(fw2, "ERROR\n");
                     printf("ERROR\n");
                     free(word);
-                    free(func1);
+                    free(func);
                     free(args);
                     return ERROR_ASM;
                 }
@@ -450,13 +438,13 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 fprintf(fw2, "ERROR\n");
                 printf("ERROR\n");
                 free(word);
-                free(func1);
+                free(func);
                 free(args);
                 return ERROR_ASM;
             }
 
             free(word);
-            free(func1);
+            free(func);
             free(args);
         }
     }
