@@ -28,7 +28,7 @@ int main()
 
     size_t dota2 = amount_of_this_symbol(program, ':');
 
-    Labels_t* labels = (Labels_t*)calloc(dota2 + 1, sizeof(Labels_t));
+    Labels_t* labels = (Labels_t*)calloc(dota2 + 10, sizeof(Labels_t));
 
     Error_assembler err_asm = Assembler(program, labels, fw1, fw2);
 
@@ -40,7 +40,7 @@ int main()
         return err_asm;
     }
 
-    printf("suck\n");
+    printf("errasm\n");
 
     fclose(fw1);
     fclose(fw2);
@@ -85,7 +85,7 @@ size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
 
         char* word = (char*)calloc(program.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < program.lineslen[i] + 1; j++)
+        for (size_t j = 0; j < program.lineslen[i]; j++)
         {
             word[j] = program.lines[i][j];
         }
@@ -99,7 +99,7 @@ size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
                 word[j] = program.lines[i][j];
             }
 
-            labels[counter_of_labels].ip = i + 1;
+            labels[counter_of_labels].ip = i + 2;
 
             labels[counter_of_labels].name = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
 
@@ -108,7 +108,7 @@ size_t amount_of_labels_in_program(File_t program, Labels_t* labels)
                 labels[counter_of_labels].name[j] = word[j];
             }
 
-            printf("%s\n", labels[counter_of_labels].name);
+            printf("%s %d\n", labels[counter_of_labels].name, labels[counter_of_labels].ip);
 
             counter_of_labels++;
         }
