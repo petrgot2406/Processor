@@ -37,21 +37,23 @@ enum Error_processor
 
 enum Commands
 {
-    CMD_PUSH = 1, //23
-    CMD_ADD  = 2, //1
-    CMD_SUB  = 3, //1
-    CMD_MUL  = 4, //1
-    CMD_DIV  = 5, //1
-    CMD_OUT  = 6, //1
-    CMD_IN   = 7, //1
-    CMD_POP  = 8, //12
-    CMD_JA   = 9, //2
-    CMD_JAE  = 10, //2
-    CMD_JB   = 11, //2
-    CMD_JBE  = 12, //2
-    CMD_JE   = 13, //2
-    CMD_JNE  = 14, //2
-    CMD_JMP  = 15 //2
+    CMD_LABEL = 0,
+    CMD_PUSH  = 1,
+    CMD_ADD   = 2,
+    CMD_SUB   = 3,
+    CMD_MUL   = 4,
+    CMD_DIV   = 5,
+    CMD_OUT   = 6,
+    CMD_IN    = 7,
+    CMD_POP   = 8,
+    CMD_JA    = 9,
+    CMD_JAE   = 10,
+    CMD_JB    = 11,
+    CMD_JBE   = 12,
+    CMD_JE    = 13,
+    CMD_JNE   = 14,
+    CMD_JMP   = 15,
+    CMD_HLT   = 16
 };
 
 enum Registers_t
@@ -60,20 +62,6 @@ enum Registers_t
     BX = 1,
     CX = 2,
     DX = 3
-};
-
-enum Labels
-{
-    L1 = 1,
-    L2 = 2,
-    L3 = 3,
-    L4 = 4,
-    L5 = 5,
-    L6 = 6,
-    L7 = 7,
-    L8 = 8,
-    L9 = 9,
-    L10 = 10
 };
 
 #endif

@@ -28,7 +28,7 @@ int main()
 
     size_t dota2 = amount_of_labels(program);
 
-    Labels_t* labels = (Labels_t*)calloc(dota2 + 10, sizeof(Labels_t));
+    Labels_t* labels = (Labels_t*)calloc(dota2 + 100, sizeof(Labels_t));
 
     Error_assembler err_asm = Assembler(program, labels, fw1, fw2);
 
@@ -40,15 +40,10 @@ int main()
         return err_asm;
     }
 
-    printf("errasm\n");
-
     fclose(fw1);
     fclose(fw2);
 
-    printf("close\n");
-
     free(labels);
-    printf("okeee\n");
 
     return 0;
 }
@@ -68,7 +63,6 @@ size_t amount_of_labels(File_t program)
         }
     }
 
-    printf("THERE ARE %u LABELS BLYAAAA\n", counter);
     fclose(fr);
 
     return counter;
@@ -101,7 +95,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
                 word[j] = program.lines[i][j];
             }
 
-            labels[counter_of_labels].ip = i + 2;
+            labels[counter_of_labels].ip = i + 1;
 
             labels[counter_of_labels].name = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
 
@@ -109,8 +103,6 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             {
                 labels[counter_of_labels].name[j] = word[j];
             }
-
-            printf("%u %s %u\n", counter_of_labels, labels[counter_of_labels].name, labels[counter_of_labels].ip);
 
             counter_of_labels++;
         }
@@ -131,17 +123,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
 
     size_t labels_num = amount_of_labels(program);
 
-    printf("%u\n", labels_num);
-
-    for (size_t i = 0; i < labels_num; i++)
-    {
-        printf("%s %u\n", labels[i].name, labels[i].ip);
-    }
-
     for (size_t i = 0; i < program.str_num; i++)
     {
         while (program.lineslen[i] == 0)
         {
+            fprintf(fw1, "\n");
             i++;
         }
 
@@ -197,6 +183,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
                 {
                     fprintf(fw1, "%d\n", CMD_POP);
                     fprintf(fw2, "%d\n", CMD_POP);
+                }
+                else if (strcmp(func, "hlt") == 0)
+                {
+                    fprintf(fw1, "%d\n", CMD_HLT);
+                    fprintf(fw2, "%d\n", CMD_HLT);
                 }
                 else
                 {
@@ -446,6 +437,10 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw1, FILE* fw2
             free(word);
             free(func);
             free(args);
+        }
+        else
+        {
+            fprintf(fw1, "%d\n", CMD_LABEL);
         }
     }
 

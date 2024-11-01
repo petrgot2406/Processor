@@ -1,7 +1,6 @@
-push 60
 push 70
-push 80
-pop ax
-push ax
-add
+push 20
+mul
 out
+
+hlt

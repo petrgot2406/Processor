@@ -40,17 +40,35 @@ Error_processor Processor(SPU* spu)
             word[j] = spu->code.lines[i][j];
         }
 
+        /*
+        while (spu->code.lineslen[i] == 0)
+        {
+            i++;
+        }
+        */
+
         int func, arg1, arg2;
 
         int numb = sscanf(word, "%d %d %d", &func, &arg1, &arg2);
+
+        /*
         printf("%d\n", numb);
         printf("%s\n", word);
         printf("%d %d %d\n", func, arg1, arg2);
+        */
 
-
-        if (numb == 1)
+        if (numb == -1)
         {
-            if (func == CMD_ADD)
+            //DO NOTHING;
+        }
+        else if (numb == 1)
+        {
+            if (func == CMD_LABEL)
+            {
+                //DO NOTHING;
+                printf("There is a label\n");
+            }
+            else if (func == CMD_ADD)
             {
                 stack_element_t a = PeekStack(spu->stack);
                 PopStack(&spu->stack);
@@ -96,6 +114,11 @@ Error_processor Processor(SPU* spu)
             else if (func == CMD_POP)
             {
                 PopStack(&spu->stack);
+            }
+            else if (func == CMD_HLT)
+            {
+                printf("FCKN SLAVE!\n");
+                return PROCESSED_OK;
             }
             else
             {
@@ -224,31 +247,35 @@ Error_processor Processor(SPU* spu)
             {
                 if (arg1 == AX && arg2 == 228)
                 {
-                    PushStack(&spu->stack, spu->registers.ax);
+                    stack_element_t elem = spu->registers.ax;
+                    PushStack(&spu->stack, elem);
                 }
                 else if (arg1 == BX && arg2 == 228)
                 {
-                    PushStack(&spu->stack, spu->registers.bx);
+                    stack_element_t elem = spu->registers.bx;
+                    PushStack(&spu->stack, elem);
                 }
                 else if (arg1 == CX && arg2 == 228)
                 {
-                    PushStack(&spu->stack, spu->registers.cx);
+                    stack_element_t elem = spu->registers.cx;
+                    PushStack(&spu->stack, elem);
                 }
                 else if (arg1 == DX && arg2 == 228)
                 {
-                    PushStack(&spu->stack, spu->registers.dx);
+                    stack_element_t elem = spu->registers.dx;
+                    PushStack(&spu->stack, elem);
                 }
                 else
                 {
                     free(word);
-                    printf("ERROR\n");
+                    printf("ERROR IN PUSHING FROM REGISTERS\n");
                     return ERROR_PROCESS;
                 }
             }
             else
             {
                 free(word);
-                printf("ERROR\n");
+                printf("ERROR IN THREE ARGUMENTS\n");
                 return ERROR_PROCESS;
             }
         }
