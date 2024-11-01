@@ -52,7 +52,7 @@ Error_processor Processor(SPU* spu)
         {
             if (func == CMD_LABEL)
             {
-                printf("There is a label\n");
+                //DO NOTHING;
             }
             else if (func == CMD_ADD)
             {
@@ -103,13 +103,13 @@ Error_processor Processor(SPU* spu)
             }
             else if (func == CMD_HLT)
             {
-                printf("FCKN SLAVE!\n");
+                printf("Program successfully finished\n");
                 return PROCESSED_OK;
             }
             else
             {
                 free(word);
-                printf("ERROR\n");
+                printf("ERROR IN STRING %d\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
@@ -145,7 +145,7 @@ Error_processor Processor(SPU* spu)
                 else
                 {
                     free(word);
-                    printf("ERROR\n");
+                    printf("ERROR IN STRING %d\n", i + 1);
                     return ERROR_PROCESS;
                 }
             }
@@ -222,7 +222,7 @@ Error_processor Processor(SPU* spu)
             else
             {
                 free(word);
-                printf("ERROR\n");
+                printf("ERROR IN STRING %d\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
@@ -253,21 +253,21 @@ Error_processor Processor(SPU* spu)
                 else
                 {
                     free(word);
-                    printf("ERROR IN PUSHING FROM REGISTERS\n");
+                    printf("ERROR IN STRING %d\n", i + 1);
                     return ERROR_PROCESS;
                 }
             }
             else
             {
                 free(word);
-                printf("ERROR IN THREE ARGUMENTS\n");
+                printf("ERROR IN STRING %d\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
         else
         {
             free(word);
-            printf("ERROR\n");
+            printf("ERROR IN STRING %d\n", i + 1);
             return ERROR_PROCESS;
         }
     }
