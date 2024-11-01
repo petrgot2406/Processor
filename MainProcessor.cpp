@@ -40,24 +40,11 @@ Error_processor Processor(SPU* spu)
             word[j] = spu->code.lines[i][j];
         }
 
-        /*
-        while (spu->code.lineslen[i] == 0)
-        {
-            i++;
-        }
-        */
-
         int func, arg1, arg2;
 
         int numb = sscanf(word, "%d %d %d", &func, &arg1, &arg2);
 
-        /*
-        printf("%d\n", numb);
-        printf("%s\n", word);
-        printf("%d %d %d\n", func, arg1, arg2);
-        */
-
-        if (numb == -1)
+        if (numb == EOF)
         {
             //DO NOTHING;
         }
@@ -65,7 +52,6 @@ Error_processor Processor(SPU* spu)
         {
             if (func == CMD_LABEL)
             {
-                //DO NOTHING;
                 printf("There is a label\n");
             }
             else if (func == CMD_ADD)
@@ -126,7 +112,6 @@ Error_processor Processor(SPU* spu)
                 printf("ERROR\n");
                 return ERROR_PROCESS;
             }
-
         }
         else if (numb == 2)
         {
@@ -172,7 +157,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a > b)
                 {
-                    i = arg1;
+                    i = arg1 - 1;
                 }
             }
             else if (func == CMD_JAE)
@@ -183,7 +168,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a >= b)
                 {
-                    i = arg1;
+                    i = arg1 - 1;
                 }
             }
             else if (func == CMD_JB)
@@ -194,7 +179,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a < b)
                 {
-                    i = arg1;
+                    i = arg1 - 1;
                 }
             }
             else if (func == CMD_JBE)
@@ -205,7 +190,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a <= b)
                 {
-                    i = arg1;
+                    i = arg1 - 1;
                 }
             }
             else if (func == CMD_JE)
@@ -216,7 +201,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a == b)
                 {
-                    i = arg1;
+                    i = arg1 - 1;
                 }
             }
             else if (func == CMD_JNE)
@@ -227,12 +212,12 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a != b)
                 {
-                    i = arg1;
+                    i = arg1 - 1;
                 }
             }
             else if (func == CMD_JMP)
             {
-                i = arg1;
+                i = arg1 - 1;
             }
             else
             {

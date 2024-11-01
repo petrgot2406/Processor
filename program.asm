@@ -1,6 +1,19 @@
-push 70
-push 20
+push 0
+pop ax
+
+NEXT:
+push ax
+push ax
 mul
 out
+
+push ax
+push 1
+add
+pop ax
+
+push ax
+push 10
+jb NEXT
 
 hlt
