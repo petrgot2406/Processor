@@ -135,7 +135,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
             word[j] = program.lines[i][j];
         }
 
-        if (word[program.lineslen[i] - 1] != ':')
+        if (word[program.lineslen[i] - 1] == ':')
+        {
+            fprintf(fw, "%d\n", CMD_LABEL);
+        }
+        else
         {
             char* func = (char*)calloc(program.lineslen[i], sizeof(char));
             char* args = (char*)calloc(program.lineslen[i], sizeof(char));
@@ -385,10 +389,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
             free(word);
             free(func);
             free(args);
-        }
-        else
-        {
-            fprintf(fw, "%d\n", CMD_LABEL);
         }
     }
 
