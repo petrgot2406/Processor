@@ -1,4 +1,4 @@
-push 0
+push 1
 pop ax
 
 NEXT:
@@ -13,7 +13,7 @@ add
 pop ax
 
 push ax
-push 10
-jb NEXT
+push 100
+jbe NEXT
 
 hlt

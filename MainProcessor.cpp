@@ -13,9 +13,9 @@ int main()
 {
     struct SPU spu = {};
 
-    InitStack(&spu.stack);
-
     spu.code.file_name = "code.asm";
+
+    InitStack(&spu.stack);
 
     Put_file_to_structure(&spu.code);
 
@@ -33,7 +33,8 @@ Error_processor Processor(SPU* spu)
 {
     for (size_t i = 0; i < spu->code.str_num; i++)
     {
-        char* word = (char*)calloc(spu->code.lineslen[i], sizeof(char));
+        char* word = (char*)calloc(spu->code.lineslen[i],
+                                   sizeof(char));
 
         for (size_t j = 0; j < spu->code.lineslen[i]; j++)
         {
@@ -103,13 +104,16 @@ Error_processor Processor(SPU* spu)
             }
             else if (func == CMD_HLT)
             {
+                printf("\n");
                 printf("Program successfully finished\n");
+                DestroyStack(&spu->stack);
+                free(word);
                 return PROCESSED_OK;
             }
             else
             {
                 free(word);
-                printf("ERROR IN STRING %d\n", i + 1);
+                printf("ERROR IN LINE %d\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
@@ -145,7 +149,7 @@ Error_processor Processor(SPU* spu)
                 else
                 {
                     free(word);
-                    printf("ERROR IN STRING %d\n", i + 1);
+                    printf("ERROR IN LINE %d\n", i + 1);
                     return ERROR_PROCESS;
                 }
             }
@@ -222,7 +226,7 @@ Error_processor Processor(SPU* spu)
             else
             {
                 free(word);
-                printf("ERROR IN STRING %d\n", i + 1);
+                printf("ERROR IN LINE %d\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
@@ -253,21 +257,21 @@ Error_processor Processor(SPU* spu)
                 else
                 {
                     free(word);
-                    printf("ERROR IN STRING %d\n", i + 1);
+                    printf("ERROR IN LINE %d\n", i + 1);
                     return ERROR_PROCESS;
                 }
             }
             else
             {
                 free(word);
-                printf("ERROR IN STRING %d\n", i + 1);
+                printf("ERROR IN LINE %d\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
         else
         {
             free(word);
-            printf("ERROR IN STRING %d\n", i + 1);
+            printf("ERROR IN LINE %d\n", i + 1);
             return ERROR_PROCESS;
         }
     }

@@ -108,5 +108,6 @@ stack_element_t PeekStack(Stack_t stack)
 {
     assert(stack.size > 0);
 
-    return *((stack_element_t*)(stack.data + 1) + stack.size - 1);
+    return *((stack_element_t*)(stack.data + 1) +
+             stack.size - 1);
 }
