@@ -104,14 +104,15 @@ Error_processor Processor(SPU* spu)
             }
             else if (func == CMD_HLT)
             {
-                printf("\n");
-                printf("Program successfully finished\n");
                 DestroyStack(&spu->stack);
                 free(word);
+                printf("\n");
+                printf("Program successfully finished\n");
                 return PROCESSED_OK;
             }
             else
             {
+                DestroyStack(&spu->stack);
                 free(word);
                 printf("ERROR IN LINE %d\n", i + 1);
                 return ERROR_PROCESS;
@@ -148,6 +149,7 @@ Error_processor Processor(SPU* spu)
                 }
                 else
                 {
+                    DestroyStack(&spu->stack);
                     free(word);
                     printf("ERROR IN LINE %d\n", i + 1);
                     return ERROR_PROCESS;
@@ -225,6 +227,7 @@ Error_processor Processor(SPU* spu)
             }
             else
             {
+                DestroyStack(&spu->stack);
                 free(word);
                 printf("ERROR IN LINE %d\n", i + 1);
                 return ERROR_PROCESS;
@@ -256,6 +259,7 @@ Error_processor Processor(SPU* spu)
                 }
                 else
                 {
+                    DestroyStack(&spu->stack);
                     free(word);
                     printf("ERROR IN LINE %d\n", i + 1);
                     return ERROR_PROCESS;
@@ -263,6 +267,7 @@ Error_processor Processor(SPU* spu)
             }
             else
             {
+                DestroyStack(&spu->stack);
                 free(word);
                 printf("ERROR IN LINE %d\n", i + 1);
                 return ERROR_PROCESS;
@@ -270,6 +275,7 @@ Error_processor Processor(SPU* spu)
         }
         else
         {
+            DestroyStack(&spu->stack);
             free(word);
             printf("ERROR IN LINE %d\n", i + 1);
             return ERROR_PROCESS;
