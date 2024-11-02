@@ -15,8 +15,8 @@ int main()
     struct File_t program = {};
     struct File_t code = {};
 
-    program.file_name = "program.asm";
-    code.file_name = "code.asm";
+    program.file_name = PROGRAM_FILE_NAME;
+    code.file_name = CODE_FILE_NAME;
 
     Put_file_to_structure(&program);
 
@@ -44,10 +44,7 @@ int main()
 
 size_t amount_of_labels(File_t program)
 {
-    FILE* fr = fopen(program.file_name, "r");
     size_t counter = 0;
-
-    Read_file_to_buffer(&program);
 
     for (size_t i = 0; i < program.file_size; i++)
     {
@@ -56,8 +53,6 @@ size_t amount_of_labels(File_t program)
             counter++;
         }
     }
-
-    fclose(fr);
 
     return counter;
 }

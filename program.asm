@@ -5,6 +5,9 @@ NEXT:
 push ax
 push ax
 mul
+push ax
+frD:
+mul
 out
 
 push ax

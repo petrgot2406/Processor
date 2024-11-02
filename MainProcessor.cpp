@@ -13,7 +13,7 @@ int main()
 {
     struct SPU spu = {};
 
-    spu.code.file_name = "code.asm";
+    spu.code.file_name = CODE_FILE_NAME;
 
     InitStack(&spu.stack);
 
