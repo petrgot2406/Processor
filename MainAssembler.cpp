@@ -206,29 +206,25 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
             }
             else if (numsd == 1 && numss == 2)
             {
-                if (strcmp(func, "push") == 0)
+                if (strcmp(func, "pushf") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_PUSH);
+                    fprintf(fw, "%d ", CMD_PUSHF);
 
                     if (strcmp(args, "ax") == 0)
                     {
-                        fprintf(fw, "%d ", AX);
-                        fprintf(fw, "%d\n", 228);
+                        fprintf(fw, "%d\n", AX);
                     }
                     else if (strcmp(args, "bx") == 0)
                     {
-                        fprintf(fw, "%d ", BX);
-                        fprintf(fw, "%d\n", 228);
+                        fprintf(fw, "%d\n", BX);
                     }
                     else if (strcmp(args, "cx") == 0)
                     {
-                        fprintf(fw, "%d ", CX);
-                        fprintf(fw, "%d\n", 228);
+                        fprintf(fw, "%d\n", CX);
                     }
                     else if (strcmp(args, "dx") == 0)
                     {
-                        fprintf(fw, "%d ", DX);
-                        fprintf(fw, "%d\n", 228);
+                        fprintf(fw, "%d\n", DX);
                     }
                     else
                     {
@@ -240,9 +236,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
                         return ERROR_ASM;
                     }
                 }
-                else if (strcmp(func, "pop") == 0)
+                else if (strcmp(func, "popf") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_POP);
+                    fprintf(fw, "%d ", CMD_POPF);
 
                     if (strcmp(args, "ax") == 0)
                     {

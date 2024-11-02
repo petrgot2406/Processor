@@ -1,22 +1,19 @@
-push 1
-pop ax
+push 0
+popf ax
 
 NEXT:
-push ax
-push ax
-mul
-push ax
-frD:
+pushf ax
+pushf ax
 mul
 out
 
-push ax
+pushf ax
 push 1
 add
-pop ax
+popf ax
 
-push ax
-push 100
-jbe NEXT
+pushf ax
+push 10
+jb NEXT
 
 hlt

@@ -42,21 +42,23 @@ enum Commands
 {
     CMD_LABEL = 0,
     CMD_PUSH  = 1,
-    CMD_ADD   = 2,
-    CMD_SUB   = 3,
-    CMD_MUL   = 4,
-    CMD_DIV   = 5,
-    CMD_OUT   = 6,
-    CMD_IN    = 7,
-    CMD_POP   = 8,
-    CMD_JA    = 9,
-    CMD_JAE   = 10,
-    CMD_JB    = 11,
-    CMD_JBE   = 12,
-    CMD_JE    = 13,
-    CMD_JNE   = 14,
-    CMD_JMP   = 15,
-    CMD_HLT   = 16
+    CMD_PUSHF = 2,
+    CMD_ADD   = 3,
+    CMD_SUB   = 4,
+    CMD_MUL   = 5,
+    CMD_DIV   = 6,
+    CMD_OUT   = 7,
+    CMD_IN    = 8,
+    CMD_POP   = 9,
+    CMD_POPF  = 10,
+    CMD_JA    = 12,
+    CMD_JAE   = 12,
+    CMD_JB    = 13,
+    CMD_JBE   = 14,
+    CMD_JE    = 15,
+    CMD_JNE   = 16,
+    CMD_JMP   = 17,
+    CMD_HLT   = 18
 };
 
 enum Registers_t

@@ -41,9 +41,9 @@ Error_processor Processor(SPU* spu)
             word[j] = spu->code.lines[i][j];
         }
 
-        int func, arg1, arg2;
+        int func, arg;
 
-        int numb = sscanf(word, "%d %d %d", &func, &arg1, &arg2);
+        int numb = sscanf(word, "%d %d", &func, &arg);
 
         if (numb == EOF)
         {
@@ -122,27 +122,57 @@ Error_processor Processor(SPU* spu)
         {
             if (func == CMD_PUSH)
             {
-                stack_element_t elem = arg1;
+                stack_element_t elem = arg;
                 PushStack(&spu->stack, elem);
             }
-            else if (func == CMD_POP)
+            else if (func == CMD_PUSHF)
             {
-                if (arg1 == AX)
+                if (arg == AX)
+                {
+                    stack_element_t elem = spu->registers.ax;
+                    PushStack(&spu->stack, elem);
+                }
+                else if (arg == BX)
+                {
+                    stack_element_t elem = spu->registers.bx;
+                    PushStack(&spu->stack, elem);
+                }
+                else if (arg == CX)
+                {
+                    stack_element_t elem = spu->registers.cx;
+                    PushStack(&spu->stack, elem);
+                }
+                else if (arg == DX)
+                {
+                    stack_element_t elem = spu->registers.dx;
+                    PushStack(&spu->stack, elem);
+                }
+                else
+                {
+                    DestroyStack(&spu->stack);
+                    free(word);
+                    printf("ERROR IN LINE %d\n", i + 1);
+                    return ERROR_PROCESS;
+                }
+            }
+            else if (func == CMD_POPF)
+            {
+                if (arg == AX)
                 {
                     spu->registers.ax = PeekStack(spu->stack);
                     PopStack(&spu->stack);
                 }
-                else if (arg1 == BX)
+                else if (arg == BX)
                 {
                     spu->registers.bx = PeekStack(spu->stack);
                     PopStack(&spu->stack);
                 }
-                else if (arg1 == CX)
+                else if (arg == CX)
                 {
                     spu->registers.cx = PeekStack(spu->stack);
                     PopStack(&spu->stack);
                 }
-                else if (arg1 == DX)
+                else if (arg == DX)
                 {
                     spu->registers.dx = PeekStack(spu->stack);
                     PopStack(&spu->stack);
@@ -163,7 +193,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a > b)
                 {
-                    i = arg1 - 1;
+                    i = arg - 1;
                 }
             }
             else if (func == CMD_JAE)
@@ -174,7 +204,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a >= b)
                 {
-                    i = arg1 - 1;
+                    i = arg - 1;
                 }
             }
             else if (func == CMD_JB)
@@ -185,7 +215,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a < b)
                 {
-                    i = arg1 - 1;
+                    i = arg - 1;
                 }
             }
             else if (func == CMD_JBE)
@@ -196,7 +226,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a <= b)
                 {
-                    i = arg1 - 1;
+                    i = arg - 1;
                 }
             }
             else if (func == CMD_JE)
@@ -207,7 +237,7 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a == b)
                 {
-                    i = arg1 - 1;
+                    i = arg - 1;
                 }
             }
             else if (func == CMD_JNE)
@@ -218,52 +248,12 @@ Error_processor Processor(SPU* spu)
                 PopStack(&spu->stack);
                 if (a != b)
                 {
-                    i = arg1 - 1;
+                    i = arg - 1;
                 }
             }
             else if (func == CMD_JMP)
             {
-                i = arg1 - 1;
-            }
-            else
-            {
-                DestroyStack(&spu->stack);
-                free(word);
-                printf("ERROR IN LINE %d\n", i + 1);
-                return ERROR_PROCESS;
-            }
-        }
-        else if (numb == 3)
-        {
-            if (func == CMD_PUSH)
-            {
-                if (arg1 == AX && arg2 == 228)
-                {
-                    stack_element_t elem = spu->registers.ax;
-                    PushStack(&spu->stack, elem);
-                }
-                else if (arg1 == BX && arg2 == 228)
-                {
-                    stack_element_t elem = spu->registers.bx;
-                    PushStack(&spu->stack, elem);
-                }
-                else if (arg1 == CX && arg2 == 228)
-                {
-                    stack_element_t elem = spu->registers.cx;
-                    PushStack(&spu->stack, elem);
-                }
-                else if (arg1 == DX && arg2 == 228)
-                {
-                    stack_element_t elem = spu->registers.dx;
-                    PushStack(&spu->stack, elem);
-                }
-                else
-                {
-                    DestroyStack(&spu->stack);
-                    free(word);
-                    printf("ERROR IN LINE %d\n", i + 1);
-                    return ERROR_PROCESS;
-                }
+                i = arg - 1;
             }
             else
             {
