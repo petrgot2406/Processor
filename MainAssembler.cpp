@@ -22,9 +22,9 @@ int main()
 
     FILE* fw = fopen(code.file_name, "w");
 
-    size_t dota2 = amount_of_labels(program);
+    size_t num_of_labels = amount_of_labels(program);
 
-    Labels_t* labels = (Labels_t*)calloc(dota2 + 1, sizeof(Labels_t));
+    Labels_t* labels = (Labels_t*)calloc(num_of_labels + 1, sizeof(Labels_t));
 
     Error_assembler err_asm = Assembler(program, labels, fw);
 
@@ -86,8 +86,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
 
             labels[counter_of_labels].ip = i + 1;
 
-            labels[counter_of_labels].name = (char*)
-                                             calloc
+            labels[counter_of_labels].name = (char*)calloc
                                              (program.lineslen[i] - 1,
                                               sizeof(char));
 
