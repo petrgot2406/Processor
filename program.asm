@@ -1,4 +1,4 @@
-push 1
+push 0
 popf ax
 
 NEXT:
@@ -13,7 +13,7 @@ add
 popf ax
 
 pushf ax
-push 1000
-jbe NEXT
+push 10
+jb NEXT
 
 hlt
