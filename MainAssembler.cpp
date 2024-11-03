@@ -8,7 +8,7 @@
 
 size_t amount_of_labels(File_t program);
 Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels);
-Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw);
+Error_assembler Assembler(File_t program, Labels_t* labels, File_t code);
 
 int main()
 {
@@ -20,22 +20,17 @@ int main()
 
     Put_file_to_structure(&program);
 
-    FILE* fw = fopen(code.file_name, "w");
-
     size_t num_of_labels = amount_of_labels(program);
 
     Labels_t* labels = (Labels_t*)calloc(num_of_labels + 1, sizeof(Labels_t));
 
-    Error_assembler err_asm = Assembler(program, labels, fw);
+    Error_assembler err_asm = Assembler(program, labels, code);
 
     if (err_asm != ASSEMBLED_OK)
     {
-        fclose(fw);
         free(labels);
         return err_asm;
     }
-
-    fclose(fw);
 
     free(labels);
 
@@ -103,7 +98,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
     return ASSEMBLED_OK;
 }
 
-Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
+Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 {
     Error_assembler err_asm = Put_labels_to_structure(program, labels);
 
@@ -111,6 +106,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
     {
         return err_asm;
     }
+
+    FILE* fw = fopen(code.file_name, "w");
 
     size_t labels_num = amount_of_labels(program);
 
@@ -180,6 +177,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
                 {
                     fprintf(fw, "ERROR\n");
                     printf("ERROR IN LINE %d\n", i + 1);
+
+                    fclose(fw);
+
                     free(word);
                     free(func);
                     free(args);
@@ -197,6 +197,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
                 {
                     fprintf(fw, "ERROR\n");
                     printf("ERROR IN LINE %d\n", i + 1);
+
+                    fclose(fw);
+
                     free(word);
                     free(func);
                     free(args);
@@ -229,6 +232,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
                     {
                         fprintf(fw, "ERROR\n");
                         printf("ERROR IN LINE %d\n", i + 1);
+
+                        fclose(fw);
+
                         free(word);
                         free(func);
                         free(args);
@@ -259,6 +265,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
                     {
                         fprintf(fw, "ERROR\n");
                         printf("ERROR IN LINE %d\n", i + 1);
+
+                        fclose(fw);
+
                         free(word);
                         free(func);
                         free(args);
@@ -360,6 +369,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
                 {
                     fprintf(fw, "ERROR\n");
                     printf("ERROR IN LINE %d\n", i + 1);
+
+                    fclose(fw);
+
                     free(word);
                     free(func);
                     free(args);
@@ -370,6 +382,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
             {
                 fprintf(fw, "ERROR\n");
                 printf("ERROR IN LINE %d\n", i + 1);
+
+                fclose(fw);
+
                 free(word);
                 free(func);
                 free(args);
@@ -381,6 +396,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, FILE* fw)
             free(args);
         }
     }
+
+    fclose(fw);
 
     free(program.buffer);
     free(program.lineslen);
