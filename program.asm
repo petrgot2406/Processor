@@ -14,6 +14,6 @@ popf ax
 
 pushf ax
 push 10
-jb NEXT
+jbe NEXT
 
 hlt

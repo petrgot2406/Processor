@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "Constants.h"
-#include "Struct.h"
-#include "Stack.h"
-#include "ReadFromFile.h"
+#include "../headers/Constants.h"
+#include "../headers/Struct.h"
+#include "../headers/Stack.h"
+#include "../headers/ReadFromFile.h"
 
 Error_processor Processor(SPU* spu);
 

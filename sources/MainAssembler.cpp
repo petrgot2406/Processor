@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "Constants.h"
-#include "Struct.h"
-#include "ReadFromFile.h"
+#include "../headers/Constants.h"
+#include "../headers/Struct.h"
+#include "../headers/ReadFromFile.h"
 
 size_t amount_of_labels(File_t program);
 Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels);

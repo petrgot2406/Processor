@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "Constants.h"
-#include "Struct.h"
-#include "StackFunc.h"
-#include "StackUtils.h"
-#include "StackHash.h"
+#include "../headers/Constants.h"
+#include "../headers/Struct.h"
+#include "../headers/StackFunc.h"
+#include "../headers/StackUtils.h"
+#include "../headers/StackHash.h"
 
 Error_stack PushStack(Stack_t* stack, stack_element_t new_elem)
 {

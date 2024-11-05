@@ -3,7 +3,7 @@ CC = g++
 PATH_HEADERS = ./headers
 PATH_SOURCES = ./sources
 
-HEADERS_NAME = $(PATH_HEADERS)/Constants.h $(PATH_HEADERS)/Struct.h $(PATH_HEADERS)/StackFunc.h $(PATH_HEADERS)/StackUtils.h $(PATH_HEADERS)/StackHash.h $(PATH_HEADERS)/ReadFromFile.h $(PATH_HEADERS)/Stack.h
+HEADERS = $(PATH_HEADERS)/Constants.h $(PATH_HEADERS)/Struct.h $(PATH_HEADERS)/StackFunc.h $(PATH_HEADERS)/StackUtils.h $(PATH_HEADERS)/StackHash.h $(PATH_HEADERS)/ReadFromFile.h $(PATH_HEADERS)/Stack.h
 
 WINFLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wno-missing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 

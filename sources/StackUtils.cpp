@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Constants.h"
-#include "Struct.h"
-#include "StackUtils.h"
-#include "StackHash.h"
+#include "../headers/Constants.h"
+#include "../headers/Struct.h"
+#include "../headers/StackUtils.h"
+#include "../headers/StackHash.h"
 
 Error_stack DumpStack(Stack_t stack)
 {

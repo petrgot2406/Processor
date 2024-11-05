@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Constants.h"
-#include "Struct.h"
-#include "StackHash.h"
+#include "../headers/Constants.h"
+#include "../headers/Struct.h"
+#include "../headers/StackHash.h"
 
 unsigned long Hash(char* data, size_t size)
 {
