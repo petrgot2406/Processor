@@ -183,6 +183,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(word);
                     free(func);
                     free(args);
+
+                    free(program.buffer);
+                    free(program.lineslen);
+                    free(program.lines);
+
                     return ERROR_ASM;
                 }
             }
@@ -203,6 +208,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(word);
                     free(func);
                     free(args);
+
+                    free(program.buffer);
+                    free(program.lineslen);
+                    free(program.lines);
+
                     return ERROR_ASM;
                 }
             }
@@ -238,6 +248,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                         free(word);
                         free(func);
                         free(args);
+
+                        free(program.buffer);
+                        free(program.lineslen);
+                        free(program.lines);
+
                         return ERROR_ASM;
                     }
                 }
@@ -271,6 +286,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                         free(word);
                         free(func);
                         free(args);
+
+                        free(program.buffer);
+                        free(program.lineslen);
+                        free(program.lines);
+
                         return ERROR_ASM;
                     }
                 }
@@ -375,6 +395,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(word);
                     free(func);
                     free(args);
+
+                    free(program.buffer);
+                    free(program.lineslen);
+                    free(program.lines);
+
                     return ERROR_ASM;
                 }
             }
@@ -388,6 +413,11 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 free(word);
                 free(func);
                 free(args);
+
+                free(program.buffer);
+                free(program.lineslen);
+                free(program.lines);
+
                 return ERROR_ASM;
             }
 
