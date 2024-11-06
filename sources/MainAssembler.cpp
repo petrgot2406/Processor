@@ -8,6 +8,7 @@
 
 size_t amount_of_labels(File_t program);
 Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels);
+void FreeAssembler(File_t* program);
 Error_assembler Assembler(File_t program, Labels_t* labels, File_t code);
 
 int main()
@@ -98,6 +99,13 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
     return ASSEMBLED_OK;
 }
 
+void FreeAssembler(File_t* program)
+{
+    free(program->buffer);
+    free(program->lineslen);
+    free(program->lines);
+}
+
 Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 {
     Error_assembler err_asm = Put_labels_to_structure(program, labels);
@@ -184,9 +192,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(func);
                     free(args);
 
-                    free(program.buffer);
-                    free(program.lineslen);
-                    free(program.lines);
+                    FreeAssembler(&program);
 
                     return ERROR_ASM;
                 }
@@ -209,9 +215,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(func);
                     free(args);
 
-                    free(program.buffer);
-                    free(program.lineslen);
-                    free(program.lines);
+                    FreeAssembler(&program);
 
                     return ERROR_ASM;
                 }
@@ -249,9 +253,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                         free(func);
                         free(args);
 
-                        free(program.buffer);
-                        free(program.lineslen);
-                        free(program.lines);
+                        FreeAssembler(&program);
 
                         return ERROR_ASM;
                     }
@@ -287,9 +289,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                         free(func);
                         free(args);
 
-                        free(program.buffer);
-                        free(program.lineslen);
-                        free(program.lines);
+                        FreeAssembler(&program);
 
                         return ERROR_ASM;
                     }
@@ -396,9 +396,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(func);
                     free(args);
 
-                    free(program.buffer);
-                    free(program.lineslen);
-                    free(program.lines);
+                    FreeAssembler(&program);
 
                     return ERROR_ASM;
                 }
@@ -414,9 +412,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 free(func);
                 free(args);
 
-                free(program.buffer);
-                free(program.lineslen);
-                free(program.lines);
+                FreeAssembler(&program);
 
                 return ERROR_ASM;
             }
@@ -429,9 +425,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
     fclose(fw);
 
-    free(program.buffer);
-    free(program.lineslen);
-    free(program.lines);
+    FreeAssembler(&program);
 
     return ASSEMBLED_OK;
 }
