@@ -1,19 +1,19 @@
 push 0
-popf ax
+popr ax
 
 NEXT:
-pushf ax
-pushf ax
+pushr ax
+pushr ax
 mul
 out
 
-pushf ax
+pushr ax
 push 1
 add
-popf ax
+popr ax
 
-pushf ax
+pushr ax
 push 10
-jbe NEXT
+jb NEXT
 
 hlt

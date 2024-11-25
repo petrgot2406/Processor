@@ -42,7 +42,7 @@ enum Commands
 {
     CMD_LABEL = 0,
     CMD_PUSH  = 1,
-    CMD_PUSHF = 2,
+    CMD_PUSHR = 2,
     CMD_ADD   = 3,
     CMD_SUB   = 4,
     CMD_MUL   = 5,
@@ -50,7 +50,7 @@ enum Commands
     CMD_OUT   = 7,
     CMD_IN    = 8,
     CMD_POP   = 9,
-    CMD_POPF  = 10,
+    CMD_POPR  = 10,
     CMD_JA    = 12,
     CMD_JAE   = 12,
     CMD_JB    = 13,

@@ -79,7 +79,7 @@ Error_processor Processor(SPU* spu)
             PushStack(&spu->stack, elem);
             i++;
         }
-        else if (spu->code_array[i] == CMD_PUSHF)
+        else if (spu->code_array[i] == CMD_PUSHR)
         {
             int arg = spu->code_array[i + 1];
             i++;
@@ -157,7 +157,7 @@ Error_processor Processor(SPU* spu)
         {
             PopStack(&spu->stack);
         }
-        else if (spu->code_array[i] == CMD_POPF)
+        else if (spu->code_array[i] == CMD_POPR)
         {
             int arg = spu->code_array[i + 1];
             i++;

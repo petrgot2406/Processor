@@ -9,6 +9,7 @@
 size_t amount_of_labels(File_t program);
 Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels);
 void FreeAssembler(File_t* program);
+void PrintJump(Labels_t* labels, char* args, FILE* fw, size_t labels_num, int CMD);
 Error_assembler Assembler(File_t program, Labels_t* labels, File_t code);
 
 int main()
@@ -126,6 +127,20 @@ void FreeAssembler(File_t* program)
     free(program->lines);
 }
 
+void PrintJump(Labels_t* labels, char* args, FILE* fw, size_t labels_num, int CMD)
+{
+    fprintf(fw, "%d\n", CMD);
+
+    for (size_t j = 0; j < labels_num; j++)
+    {
+        if (strcmp(args, labels[j].name) == 0)
+        {
+            fprintf(fw, "%u\n", labels[j].ip);
+            break;
+        }
+    }
+}
+
 Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 {
     Error_assembler err_asm = Put_labels_to_structure(program, labels);
@@ -238,9 +253,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             }
             else if (numsd == 1 && numss == 2)
             {
-                if (strcmp(func, "pushf") == 0)
+                if (strcmp(func, "pushr") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_PUSHF);
+                    fprintf(fw, "%d\n", CMD_PUSHR);
 
                     if (strcmp(args, "ax") == 0)
                     {
@@ -274,9 +289,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                         return ERROR_ASM;
                     }
                 }
-                else if (strcmp(func, "popf") == 0)
+                else if (strcmp(func, "popr") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_POPF);
+                    fprintf(fw, "%d\n", CMD_POPR);
 
                     if (strcmp(args, "ax") == 0)
                     {
@@ -312,94 +327,31 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "ja") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JA);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JA);
                 }
                 else if (strcmp(func, "jae") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JAE);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JAE);
                 }
                 else if (strcmp(func, "jb") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JB);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JB);
                 }
                 else if (strcmp(func, "jbe") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JBE);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JBE);
                 }
                 else if (strcmp(func, "je") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JE);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JE);
                 }
                 else if (strcmp(func, "jne") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JNE);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JNE);
                 }
                 else if (strcmp(func, "jmp") == 0)
                 {
-                    fprintf(fw, "%d\n", CMD_JMP);
-
-                    for (size_t j = 0; j < labels_num; j++)
-                    {
-                        if (strcmp(args, labels[j].name) == 0)
-                        {
-                            fprintf(fw, "%u\n", labels[j].ip);
-                            break;
-                        }
-                    }
+                    PrintJump(labels, args, fw, labels_num, CMD_JMP);
                 }
                 else
                 {
