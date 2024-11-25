@@ -95,11 +95,11 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             {
                 counter++;
             }
-            else if (numsd == 1 && numss == 2)
+            else if (numsd == 2)
             {
                 counter += 2;
             }
-            else if (numsd == 2 && numss == 2)
+            else if (numsd == 1 && numss == 2)
             {
                 counter += 2;
             }
@@ -114,11 +114,6 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
         }
 
         free(word);
-    }
-
-    for (size_t i = 0; i < counter_of_labels; i++)
-    {
-        printf("label %u: ip = %u, name = %s\n", i, labels[i].ip, labels[i].name);
     }
 
     return ASSEMBLED_OK;
@@ -153,10 +148,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
         char* word = (char*)calloc(program.lineslen[i] + 1, sizeof(char));
 
-        for (size_t j = 0; j < program.lineslen[i]; j++)
-        {
-            word[j] = program.lines[i][j];
-        }
+        memcpy(word, program.lines[i], program.lineslen[i]);
 
         if (word[program.lineslen[i] - 1] == ':')
         {
@@ -450,6 +442,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
     fclose(fw);
 
     FreeAssembler(&program);
+
+    printf("Compilation in OK\n");
 
     return ASSEMBLED_OK;
 }

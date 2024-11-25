@@ -43,10 +43,7 @@ Error_processor Put_code_to_array(SPU* spu)
     {
         char* word = (char*)calloc(spu->code.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < spu->code.lineslen[i]; j++)
-        {
-            word[j] = spu->code.lines[i][j];
-        }
+        memcpy(word, spu->code.lines[i], spu->code.lineslen[i]);
 
         int element;
         int scan_num = sscanf(word, "%d", &element);
