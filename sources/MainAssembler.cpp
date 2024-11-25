@@ -68,30 +68,17 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
 
         char* word = (char*)calloc(program.lineslen[i], sizeof(char));
 
-        for (size_t j = 0; j < program.lineslen[i]; j++)
-        {
-            word[j] = program.lines[i][j];
-        }
+        memcpy(word, program.lines[i], program.lineslen[i]);
 
         if (word[program.lineslen[i] - 1] == ':')
         {
-            word = (char*)realloc(word, (program.lineslen[i] - 1) * sizeof(char));
-
-            for (size_t j = 0; j < program.lineslen[i]; j++)
-            {
-                word[j] = program.lines[i][j];
-            }
-
+            counter++;
             labels[counter_of_labels].ip = counter + 1;
 
             labels[counter_of_labels].name = (char*)calloc
-                                             (program.lineslen[i] - 1,
+                                             (program.lineslen[i],
                                               sizeof(char));
-
-            for (size_t j = 0; j < program.lineslen[i] - 1; j++)
-            {
-                labels[counter_of_labels].name[j] = word[j];
-            }
+            memcpy(labels[counter_of_labels].name, word, program.lineslen[i] - 1);
 
             counter_of_labels++;
         }
@@ -122,13 +109,20 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
                 return ERROR_ASM;
             }
 
-
             free(func);
             free(args);
         }
 
         free(word);
     }
+
+    /*
+    for (size_t i = 0; i < counter_of_labels; i++)
+    {
+        printf("label %u: ip = %u, name = %s\n", i, labels->ip, labels->name);
+    }
+    */
+
     return ASSEMBLED_OK;
 }
 
