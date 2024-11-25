@@ -64,11 +64,6 @@ Error_processor Put_code_to_array(SPU* spu)
         free(word);
     }
 
-    for (size_t i = 0; i < spu->code.str_num; i++)
-    {
-        printf("%d\n", spu->code_array[i]);
-    }
-
     return PROCESSED_OK;
 }
 
@@ -205,7 +200,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a > b)
             {
-                i = arg;
+                i = arg - 1;
             }
             else
             {
@@ -221,7 +216,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a >= b)
             {
-                i = arg;
+                i = arg - 1;
             }
             else
             {
@@ -237,7 +232,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a < b)
             {
-                i = arg;
+                i = arg - 1;
             }
             else
             {
@@ -253,7 +248,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a <= b)
             {
-                i = arg;
+                i = arg - 1;
             }
             else
             {
@@ -269,7 +264,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a == b)
             {
-                i = arg;
+                i = arg - 1;
             }
             else
             {
@@ -285,7 +280,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a != b)
             {
-                i = arg;
+                i = arg - 1;
             }
             else
             {
@@ -295,9 +290,7 @@ Error_processor Processor(SPU* spu)
         else if (spu->code_array[i] == CMD_JMP)
         {
             int arg = spu->code_array[i + 1];
-            PopStack(&spu->stack);
-            PopStack(&spu->stack);
-            i = arg;
+            i = arg - 1;
         }
         else if (spu->code_array[i] == CMD_HLT)
         {

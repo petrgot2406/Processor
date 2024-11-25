@@ -82,8 +82,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
                 word[j] = program.lines[i][j];
             }
 
-            //labels[counter_of_labels].ip = i + 1;
-            labels[counter_of_labels].ip = counter;
+            labels[counter_of_labels].ip = counter + 1;
 
             labels[counter_of_labels].name = (char*)calloc
                                              (program.lineslen[i] - 1,
@@ -155,8 +154,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
     size_t labels_num = amount_of_labels(program);
 
-    size_t counter = 0;
-
     for (size_t i = 0; i < program.str_num; i++)
     {
         while (program.lineslen[i] == 0)
@@ -174,25 +171,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
         if (word[program.lineslen[i] - 1] == ':')
         {
             fprintf(fw, "%d\n", CMD_LABEL);
-            counter++;
-
-            char* label_word = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
-
-            for (size_t j = 0; j < program.lineslen[i] - 1; j++)
-            {
-                label_word[j] = word[j];
-            }
-
-            for (size_t j = 0; j < labels_num; j++)
-            {
-                if (strcmp(labels[j].name, label_word) == 0)
-                {
-                    labels[j].ip = counter - 1;
-                    break;
-                }
-            }
-
-            free(label_word);
         }
         else
         {
@@ -207,7 +185,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
             if (numsd == 1 && numss == 1)
             {
-                counter++;
                 if (strcmp(func, "add") == 0)
                 {
                     fprintf(fw, "%d\n", CMD_ADD);
@@ -258,7 +235,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             }
             else if (numsd == 2)
             {
-                counter += 2;
                 if (strcmp(func, "push") == 0)
                 {
                     fprintf(fw, "%d\n", CMD_PUSH);
@@ -282,7 +258,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             }
             else if (numsd == 1 && numss == 2)
             {
-                counter += 2;
                 if (strcmp(func, "pushf") == 0)
                 {
                     fprintf(fw, "%d\n", CMD_PUSHF);
