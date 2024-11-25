@@ -104,8 +104,6 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             int numsd = sscanf(word, "%s %d", func, &arg);
             int numss = sscanf(word, "%s %s", func, args);
 
-            printf("LINE %d: numsd = %d, numss = %d\n", i + 1, numsd, numss);
-
             if (numsd == 1 && numsd == 1)
             {
                 counter++;
@@ -180,8 +178,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
             int numsd = sscanf(word, "%s %d", func, &arg);
             int numss = sscanf(word, "%s %s", func, args);
-
-            printf("%d %d\n", numsd, numss);
 
             if (numsd == 1 && numss == 1)
             {
