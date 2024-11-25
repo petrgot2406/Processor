@@ -54,6 +54,7 @@ struct SPU
 {
     Stack_t stack;
     File_t code;
+    int* code_array;
     Labels_t labels;
     Registers registers;
 };

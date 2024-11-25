@@ -42,13 +42,13 @@ size_t num_of_strings_in_file(File_t file)
 void Init_file(File_t* file)
 {
     file->file_size = num_of_symbols_in_file(*file);
-    file->str_num = num_of_strings_in_file(*file);
+    file->str_num   = num_of_strings_in_file(*file);
 
-    file->buffer = (char*)calloc(file->file_size + 1, sizeof(char));
+    file->buffer    = (char*)calloc(file->file_size + 1, sizeof(char));
 
-    file->lineslen = (size_t*)calloc(file->str_num, sizeof(size_t));
+    file->lineslen  = (size_t*)calloc(file->str_num, sizeof(size_t));
 
-    file->lines = (char**)calloc(file->str_num + 1, sizeof(char*));
+    file->lines     = (char**)calloc(file->str_num + 1, sizeof(char*));
 }
 
 void Read_file_to_buffer(File_t* file)

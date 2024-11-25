@@ -73,7 +73,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
 
         if (word[program.lineslen[i] - 1] == ':')
         {
-            word = (char*)realloc(word, program.lineslen[i] * sizeof(char));
+            word = (char*)realloc(word, (program.lineslen[i] - 1) * sizeof(char));
 
             for (size_t j = 0; j < program.lineslen[i]; j++)
             {
@@ -119,11 +119,12 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
     size_t labels_num = amount_of_labels(program);
 
+    size_t counter = 0;
+
     for (size_t i = 0; i < program.str_num; i++)
     {
         while (program.lineslen[i] == 0)
         {
-            fprintf(fw, "\n");
             i++;
         }
 
@@ -137,6 +138,25 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
         if (word[program.lineslen[i] - 1] == ':')
         {
             fprintf(fw, "%d\n", CMD_LABEL);
+            counter++;
+
+            char* label_word = (char*)calloc(program.lineslen[i] - 1, sizeof(char));
+
+            for (size_t j = 0; j < program.lineslen[i] - 1; j++)
+            {
+                label_word[j] = word[j];
+            }
+
+            for (size_t j = 0; j < labels_num; j++)
+            {
+                if (strcmp(labels[j].name, label_word) == 0)
+                {
+                    labels[j].ip = counter - 1;
+                    break;
+                }
+            }
+
+            free(label_word);
         }
         else
         {
@@ -149,6 +169,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
             if (numsd == 1 && numss == 1)
             {
+                counter++;
                 if (strcmp(func, "add") == 0)
                 {
                     fprintf(fw, "%d\n", CMD_ADD);
@@ -199,9 +220,10 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             }
             else if (numsd == 2)
             {
+                counter += 2;
                 if (strcmp(func, "push") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_PUSH);
+                    fprintf(fw, "%d\n", CMD_PUSH);
                     fprintf(fw, "%d\n", arg);
                 }
                 else
@@ -222,9 +244,10 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             }
             else if (numsd == 1 && numss == 2)
             {
+                counter += 2;
                 if (strcmp(func, "pushf") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_PUSHF);
+                    fprintf(fw, "%d\n", CMD_PUSHF);
 
                     if (strcmp(args, "ax") == 0)
                     {
@@ -260,7 +283,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "popf") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_POPF);
+                    fprintf(fw, "%d\n", CMD_POPF);
 
                     if (strcmp(args, "ax") == 0)
                     {
@@ -296,7 +319,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "ja") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JA);
+                    fprintf(fw, "%d\n", CMD_JA);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
@@ -309,7 +332,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "jae") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JAE);
+                    fprintf(fw, "%d\n", CMD_JAE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
@@ -322,7 +345,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "jb") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JB);
+                    fprintf(fw, "%d\n", CMD_JB);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
@@ -335,7 +358,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "jbe") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JBE);
+                    fprintf(fw, "%d\n", CMD_JBE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
@@ -348,7 +371,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "je") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JE);
+                    fprintf(fw, "%d\n", CMD_JE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
@@ -361,7 +384,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "jne") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JNE);
+                    fprintf(fw, "%d\n", CMD_JNE);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
@@ -374,7 +397,7 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 }
                 else if (strcmp(func, "jmp") == 0)
                 {
-                    fprintf(fw, "%d ", CMD_JMP);
+                    fprintf(fw, "%d\n", CMD_JMP);
 
                     for (size_t j = 0; j < labels_num; j++)
                     {
