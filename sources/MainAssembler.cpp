@@ -91,7 +91,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             int numsd = sscanf(word, "%s %d", func, &arg);
             int numss = sscanf(word, "%s %s", func, args);
 
-            if (numsd == 1 && numsd == 1)
+            if (numsd == 1)
             {
                 counter++;
             }
