@@ -57,6 +57,8 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
 {
     size_t counter_of_labels = 0;
 
+    size_t counter = 0;
+
     for (size_t i = 0; i < program.str_num; i++)
     {
         while (program.lineslen[i] == 0)
@@ -80,7 +82,8 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
                 word[j] = program.lines[i][j];
             }
 
-            labels[counter_of_labels].ip = i + 1;
+            //labels[counter_of_labels].ip = i + 1;
+            labels[counter_of_labels].ip = counter;
 
             labels[counter_of_labels].name = (char*)calloc
                                              (program.lineslen[i] - 1,
@@ -92,6 +95,39 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             }
 
             counter_of_labels++;
+        }
+        else
+        {
+            char* func = (char*)calloc(program.lineslen[i] + 1, sizeof(char));
+            char* args = (char*)calloc(program.lineslen[i] + 1, sizeof(char));
+            int arg = 0;
+
+            int numsd = sscanf(word, "%s %d", func, &arg);
+            int numss = sscanf(word, "%s %s", func, args);
+
+            printf("LINE %d: numsd = %d, numss = %d\n", i + 1, numsd, numss);
+
+            if (numsd == 1 && numsd == 1)
+            {
+                counter++;
+            }
+            else if (numsd == 1 && numss == 2)
+            {
+                counter += 2;
+            }
+            else if (numsd == 2 && numss == 2)
+            {
+                counter += 2;
+            }
+            else
+            {
+                printf("ERROR IN LINE %d\n", i + 1);
+                return ERROR_ASM;
+            }
+
+
+            free(func);
+            free(args);
         }
 
         free(word);
@@ -166,6 +202,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
 
             int numsd = sscanf(word, "%s %d", func, &arg);
             int numss = sscanf(word, "%s %s", func, args);
+
+            printf("%d %d\n", numsd, numss);
 
             if (numsd == 1 && numss == 1)
             {
