@@ -73,7 +73,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
         if (word[program.lineslen[i] - 1] == ':')
         {
             counter++;
-            labels[counter_of_labels].ip = counter + 1;
+            labels[counter_of_labels].ip = counter;
 
             labels[counter_of_labels].name = (char*)calloc
                                              (program.lineslen[i],
@@ -116,12 +116,10 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
         free(word);
     }
 
-    /*
     for (size_t i = 0; i < counter_of_labels; i++)
     {
-        printf("label %u: ip = %u, name = %s\n", i, labels->ip, labels->name);
+        printf("label %u: ip = %u, name = %s\n", i, labels[i].ip, labels[i].name);
     }
-    */
 
     return ASSEMBLED_OK;
 }

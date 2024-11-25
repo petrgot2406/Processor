@@ -200,7 +200,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a > b)
             {
-                i = arg - 1;
+                i = arg;
             }
             else
             {
@@ -216,7 +216,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a >= b)
             {
-                i = arg - 1;
+                i = arg;
             }
             else
             {
@@ -232,7 +232,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a < b)
             {
-                i = arg - 1;
+                i = arg;
             }
             else
             {
@@ -248,7 +248,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a <= b)
             {
-                i = arg - 1;
+                i = arg;
             }
             else
             {
@@ -264,7 +264,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a == b)
             {
-                i = arg - 1;
+                i = arg;
             }
             else
             {
@@ -280,7 +280,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a != b)
             {
-                i = arg - 1;
+                i = arg;
             }
             else
             {
@@ -290,7 +290,7 @@ Error_processor Processor(SPU* spu)
         else if (spu->code_array[i] == CMD_JMP)
         {
             int arg = spu->code_array[i + 1];
-            i = arg - 1;
+            i = arg;
         }
         else if (spu->code_array[i] == CMD_HLT)
         {
