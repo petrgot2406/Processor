@@ -13,7 +13,7 @@ unsigned long Hash(char* data, size_t size)
     for (size_t i = 0; i < size; i++)
     {
         c = str[i];
-        hash = ~(hash << 3) ^ c;
+        hash = ~(hash << 3) ^ (size_t)c;
     }
 
     return hash;

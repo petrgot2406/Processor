@@ -8,7 +8,6 @@
 #include "../headers/ReadFromFile.h"
 
 Error_processor Put_code_to_array(SPU* spu);
-void FreeCode(File_t* code);
 Error_processor Processor(SPU* spu);
 
 int main()
@@ -58,24 +57,16 @@ Error_processor Put_code_to_array(SPU* spu)
         {
             printf("ERROR IN INPUT\n");
 
-            FreeCode(&spu->code);
+            FreeFile(&spu->code);
 
             return ERROR_PROCESS;
         }
     }
 
-    FreeCode(&spu->code);
+    FreeFile(&spu->code);
 
     return PROCESSED_OK;
 }
-
-void FreeCode(File_t* code)
-{
-    free(code->buffer);
-    free(code->lineslen);
-    free(code->lines);
-}
-
 
 Error_processor Processor(SPU* spu)
 {

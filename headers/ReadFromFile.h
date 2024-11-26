@@ -8,5 +8,6 @@ void Read_file_to_buffer(File_t* file);
 void Put_lineslen_for_all_lines(File_t* file);
 void Put_pointers_to_lines(File_t* file);
 void Put_file_to_structure(File_t* file);
+void FreeFile(File_t* file);
 
 #endif

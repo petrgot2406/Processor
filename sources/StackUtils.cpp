@@ -15,8 +15,8 @@ Error_stack DumpStack(Stack_t stack)
     }
 
     printf("dump\n");
-    printf("Capacity = %u\n", stack.capacity);
-    printf("Size = %u\n", stack.size);
+    printf("Capacity = %lu\n", stack.capacity);
+    printf("Size = %lu\n", stack.size);
     printf("Data:\n");
 
     for (size_t i = 0; i < stack.size; i++)

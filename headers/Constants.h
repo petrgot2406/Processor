@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define printf_stack_element(number, element) printf("stack[%u] = %d\n", number, element)
+#define printf_stack_element(number, element) printf("stack[%lu] = %d\n", number, element)
 
 #define PROGRAM_FILE_NAME  "program.asm"
 #define CODE_FILE_NAME     "code.asm"

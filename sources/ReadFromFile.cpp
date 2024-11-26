@@ -114,3 +114,10 @@ void Put_file_to_structure(File_t* file)
 
     fclose(fr);
 }
+
+void FreeFile(File_t* file)
+{
+    free(file->buffer);
+    free(file->lineslen);
+    free(file->lines);
+}
