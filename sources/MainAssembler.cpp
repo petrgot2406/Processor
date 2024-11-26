@@ -125,8 +125,6 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             free(func);
             free(args);
         }
-
-        //free(word);
     }
 
     return ASSEMBLED_OK;
