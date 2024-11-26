@@ -8,8 +8,8 @@
 #include "../headers/ReadFromFile.h"
 
 Error_processor Put_code_to_array(SPU* spu);
+void FreeCode(File_t* code);
 Error_processor Processor(SPU* spu);
-Error_processor Old_Processor(SPU* spu);
 
 int main()
 {
@@ -48,6 +48,8 @@ Error_processor Put_code_to_array(SPU* spu)
         int element;
         int scan_num = sscanf(word, "%d", &element);
 
+        free(word);
+
         if (scan_num == 1)
         {
             spu->code_array[i] = element;
@@ -55,13 +57,23 @@ Error_processor Put_code_to_array(SPU* spu)
         else
         {
             printf("ERROR IN INPUT\n");
+
+            FreeCode(&spu->code);
+
             return ERROR_PROCESS;
         }
-
-        free(word);
     }
 
+    FreeCode(&spu->code);
+
     return PROCESSED_OK;
+}
+
+void FreeCode(File_t* code)
+{
+    free(code->buffer);
+    free(code->lineslen);
+    free(code->lines);
 }
 
 
@@ -106,7 +118,7 @@ Error_processor Processor(SPU* spu)
             else
             {
                 DestroyStack(&spu->stack);
-                printf("ERROR IN LINE %d\n", i + 1);
+                printf("ERROR IN LINE %lu\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
@@ -184,7 +196,7 @@ Error_processor Processor(SPU* spu)
             else
             {
                 DestroyStack(&spu->stack);
-                printf("ERROR IN LINE %d\n", i + 1);
+                printf("ERROR IN LINE %lu\n", i + 1);
                 return ERROR_PROCESS;
             }
         }
@@ -197,7 +209,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a > b)
             {
-                i = arg;
+                i = (size_t)arg;
             }
             else
             {
@@ -213,7 +225,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a >= b)
             {
-                i = arg;
+                i = (size_t)arg;
             }
             else
             {
@@ -229,7 +241,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a < b)
             {
-                i = arg;
+                i = (size_t)arg;
             }
             else
             {
@@ -245,7 +257,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a <= b)
             {
-                i = arg;
+                i = (size_t)arg;
             }
             else
             {
@@ -261,7 +273,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a == b)
             {
-                i = arg;
+                i = (size_t)arg;
             }
             else
             {
@@ -277,7 +289,7 @@ Error_processor Processor(SPU* spu)
             PopStack(&spu->stack);
             if (a != b)
             {
-                i = arg;
+                i = (size_t)arg;
             }
             else
             {
@@ -287,7 +299,7 @@ Error_processor Processor(SPU* spu)
         else if (spu->code_array[i] == CMD_JMP)
         {
             int arg = spu->code_array[i + 1];
-            i = arg;
+            i = (size_t)arg;
         }
         else if (spu->code_array[i] == CMD_HLT)
         {

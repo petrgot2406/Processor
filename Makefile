@@ -14,28 +14,28 @@ assemble: Assembler.exe
 	./Assembler.exe
 
 Assembler.exe: MainAssembler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
-	$(CC) MainAssembler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Assembler.exe
+	$(CC) MainAssembler.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Assembler.exe $(LINUXFLAGS)
 
 process: Processor.exe
 	./Processor.exe
 
 Processor.exe: MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o
-	$(CC) MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Processor.exe
+	$(CC) MainProcessor.o StackFunc.o StackUtils.o StackHash.o ReadFromFile.o -o Processor.exe $(LINUXFLAGS)
 
 MainAssembler.o: $(PATH_SOURCES)/MainAssembler.cpp $(HEADERS)
-	$(CC) -c $(PATH_SOURCES)/MainAssembler.cpp $(WINFLAGS)
+	$(CC) -c $(PATH_SOURCES)/MainAssembler.cpp $(LINUXFLAGS)
 
 MainProcessor.o: $(PATH_SOURCES)/MainProcessor.cpp $(HEADERS)
-	$(CC) -c $(PATH_SOURCES)/MainProcessor.cpp $(WINFLAGS)
+	$(CC) -c $(PATH_SOURCES)/MainProcessor.cpp $(LINUXFLAGS)
 
 ReadFromFile.o: $(PATH_SOURCES)/ReadFromFile.cpp $(HEADERS)
-	$(CC) -c $(PATH_SOURCES)/ReadFromFile.cpp $(WINFLAGS)
+	$(CC) -c $(PATH_SOURCES)/ReadFromFile.cpp $(LINUXFLAGS)
 
 StackFunc.o: $(PATH_SOURCES)/StackFunc.cpp $(HEADERS)
-	$(CC) -c $(PATH_SOURCES)/StackFunc.cpp $(WINFLAGS)
+	$(CC) -c $(PATH_SOURCES)/StackFunc.cpp $(LINUXFLAGS)
 
 StackUtils.o: $(PATH_SOURCES)/StackUtils.cpp $(HEADERS)
-	$(CC) -c $(PATH_SOURCES)/StackUtils.cpp $(WINFLAGS)
+	$(CC) -c $(PATH_SOURCES)/StackUtils.cpp $(LINUXFLAGS)
 
 StackHash.o: $(PATH_SOURCES)/StackHash.cpp $(HEADERS)
-	$(CC) -c $(PATH_SOURCES)/StackHash.cpp $(WINFLAGS)
+	$(CC) -c $(PATH_SOURCES)/StackHash.cpp $(LINUXFLAGS)
