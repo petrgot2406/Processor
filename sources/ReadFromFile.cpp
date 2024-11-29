@@ -106,13 +106,9 @@ void Put_file_to_structure(File_t* file)
 {
     Init_file(file);
 
-    FILE* fr = fopen(file->file_name, "r");
-
     Read_file_to_buffer(file);
     Put_lineslen_for_all_lines(file);
     Put_pointers_to_lines(file);
-
-    fclose(fr);
 }
 
 void FreeFile(File_t* file)

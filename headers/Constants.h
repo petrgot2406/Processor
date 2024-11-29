@@ -5,6 +5,7 @@
 
 #define printf_stack_element(number, element) printf("stack[%lu] = %d\n", number, element)
 
+// TODO константы
 #define PROGRAM_FILE_NAME  "program.asm"
 #define CODE_FILE_NAME     "code.asm"
 

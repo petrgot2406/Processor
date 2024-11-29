@@ -10,7 +10,9 @@ size_t amount_of_labels(File_t program);
 Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels);
 void FreeAssembler(File_t* program);
 void FreeLabels(Labels_t* labels, size_t num_of_labels);
-void PrintJump(Labels_t* labels, char* args, FILE* fw, size_t num_of_labels, int CMD);
+Error_assembler PrintJump(Labels_t* labels, char* args, FILE* fw, size_t num_of_labels, int CMD);
+Error_assembler PrintWithoutArg(File_t program, FILE* fw, char* func, char* args, size_t i);
+Error_assembler PrintRegister(File_t program, FILE* fw, char* func, char* args, size_t i);
 Error_assembler Assembler(File_t program, Labels_t* labels, File_t code);
 
 int main()
@@ -32,9 +34,11 @@ int main()
     if (err_asm != ASSEMBLED_OK)
     {
         FreeLabels(labels, num_of_labels);
+        free(labels);
         return err_asm;
     }
 
+    FreeLabels(labels, num_of_labels);
     free(labels);
 
     return 0;
@@ -68,11 +72,7 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             i++;
         }
 
-        char* word = (char*)calloc(program.lineslen[i], sizeof(char));
-
-        memcpy(word, program.lines[i], program.lineslen[i]);
-
-        if (word[program.lineslen[i] - 1] == ':')
+        if (program.lines[i][program.lineslen[i] - 1] == ':')
         {
             counter++;
             labels[counter_of_labels].ip = counter;
@@ -81,11 +81,9 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
                                              (program.lineslen[i],
                                               sizeof(char));
 
-            memcpy(labels[counter_of_labels].name, word, program.lineslen[i] - 1);
+            memcpy(labels[counter_of_labels].name, program.lines[i], program.lineslen[i] - 1);
 
             counter_of_labels++;
-
-            free(word);
         }
         else
         {
@@ -93,10 +91,10 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
             char* args = (char*)calloc(program.lineslen[i] + 1, sizeof(char));
             int arg = 0;
 
-            int numsd = sscanf(word, "%s %d", func, &arg);
-            int numss = sscanf(word, "%s %s", func, args);
+            program.lines[i][program.lineslen[i]] = '\0';
 
-            free(word);
+            int numsd = sscanf(program.lines[i], "%s %d", func, &arg);
+            int numss = sscanf(program.lines[i], "%s %s", func, args);
 
             if (numsd == 1)
             {
@@ -116,8 +114,6 @@ Error_assembler Put_labels_to_structure(File_t program, Labels_t* labels)
 
                 free(func);
                 free(args);
-
-                FreeLabels(labels, counter_of_labels);
 
                 return ERROR_ASM;
             }
@@ -145,7 +141,7 @@ void FreeLabels(Labels_t* labels, size_t num_of_labels)
     }
 }
 
-void PrintJump(Labels_t* labels, char* args, FILE* fw, size_t num_of_labels, int CMD)
+Error_assembler PrintJump(Labels_t* labels, char* args, FILE* fw, size_t num_of_labels, int CMD)
 {
     fprintf(fw, "%d\n", CMD);
 
@@ -157,6 +153,96 @@ void PrintJump(Labels_t* labels, char* args, FILE* fw, size_t num_of_labels, int
             break;
         }
     }
+
+    return ASSEMBLED_OK;
+}
+
+Error_assembler PrintWithoutArg(File_t program, FILE* fw, char* func, char* args, size_t i)
+{
+    if (strcmp(func, "add") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_ADD);
+    }
+    else if (strcmp(func, "sub") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_SUB);
+    }
+    else if (strcmp(func, "mul") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_MUL);
+    }
+    else if (strcmp(func, "div") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_DIV);
+    }
+    else if (strcmp(func, "out") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_OUT);
+    }
+    else if (strcmp(func, "in") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_IN);
+                }
+    else if (strcmp(func, "pop") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_POP);
+    }
+    else if (strcmp(func, "hlt") == 0)
+    {
+        fprintf(fw, "%d\n", CMD_HLT);
+    }
+    else
+    {
+        fprintf(fw, "ERROR\n");
+        printf("ERROR IN LINE %lu\n", i + 1);
+
+        fclose(fw);
+
+        free(func);
+        free(args);
+
+        FreeAssembler(&program);
+
+        return ERROR_ASM;
+    }
+
+    return ASSEMBLED_OK;
+}
+
+Error_assembler PrintRegister(File_t program, FILE* fw, char* func, char* args, size_t i)
+{
+    if (strcmp(args, "ax") == 0)
+    {
+        fprintf(fw, "%d\n", AX);
+    }
+    else if (strcmp(args, "bx") == 0)
+    {
+        fprintf(fw, "%d\n", BX);
+    }
+    else if (strcmp(args, "cx") == 0)
+    {
+        fprintf(fw, "%d\n", CX);
+    }
+    else if (strcmp(args, "dx") == 0)
+    {
+        fprintf(fw, "%d\n", DX);
+    }
+    else
+    {
+        fprintf(fw, "ERROR\n");
+        printf("ERROR IN LINE %lu\n", i + 1);
+
+        fclose(fw);
+
+        free(func);
+        free(args);
+
+        FreeAssembler(&program);
+
+        return ERROR_ASM;
+    }
+
+    return ASSEMBLED_OK;
 }
 
 Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
@@ -179,14 +265,9 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             i++;
         }
 
-        char* word = (char*)calloc(program.lineslen[i] + 1, sizeof(char));
-
-        memcpy(word, program.lines[i], program.lineslen[i]);
-
-        if (word[program.lineslen[i] - 1] == ':')
+        if (program.lines[i][program.lineslen[i] - 1] == ':')
         {
             fprintf(fw, "%d\n", CMD_LABEL);
-            free(word);
         }
         else
         {
@@ -194,58 +275,14 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
             char* args = (char*)calloc(program.lineslen[i] + 1, sizeof(char));
             int arg = 0;
 
-            int numsd = sscanf(word, "%s %d", func, &arg);
-            int numss = sscanf(word, "%s %s", func, args);
-
-            free(word);
+            program.lines[i][program.lineslen[i]] = '\0';
+            int numsd = sscanf(program.lines[i], "%s %d", func, &arg);
+            int numss = sscanf(program.lines[i], "%s %[^\n]", func, args);
 
             if (numsd == 1 && numss == 1)
             {
-                if (strcmp(func, "add") == 0)
+                if (PrintWithoutArg(program, fw, func, args,  i))
                 {
-                    fprintf(fw, "%d\n", CMD_ADD);
-                }
-                else if (strcmp(func, "sub") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_SUB);
-                }
-                else if (strcmp(func, "mul") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_MUL);
-                }
-                else if (strcmp(func, "div") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_DIV);
-                }
-                else if (strcmp(func, "out") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_OUT);
-                }
-                else if (strcmp(func, "in") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_IN);
-                }
-                else if (strcmp(func, "pop") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_POP);
-                }
-                else if (strcmp(func, "hlt") == 0)
-                {
-                    fprintf(fw, "%d\n", CMD_HLT);
-                }
-                else
-                {
-                    fprintf(fw, "ERROR\n");
-                    printf("ERROR IN LINE %lu\n", i + 1);
-
-                    fclose(fw);
-
-                    free(func);
-                    free(args);
-
-                    FreeAssembler(&program);
-                    FreeLabels(labels, num_of_labels);
-
                     return ERROR_ASM;
                 }
             }
@@ -267,7 +304,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(args);
 
                     FreeAssembler(&program);
-                    FreeLabels(labels, num_of_labels);
 
                     return ERROR_ASM;
                 }
@@ -278,35 +314,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 {
                     fprintf(fw, "%d\n", CMD_PUSHR);
 
-                    if (strcmp(args, "ax") == 0)
+                    if (PrintRegister(program, fw, func, args, i))
                     {
-                        fprintf(fw, "%d\n", AX);
-                    }
-                    else if (strcmp(args, "bx") == 0)
-                    {
-                        fprintf(fw, "%d\n", BX);
-                    }
-                    else if (strcmp(args, "cx") == 0)
-                    {
-                        fprintf(fw, "%d\n", CX);
-                    }
-                    else if (strcmp(args, "dx") == 0)
-                    {
-                        fprintf(fw, "%d\n", DX);
-                    }
-                    else
-                    {
-                        fprintf(fw, "ERROR\n");
-                        printf("ERROR IN LINE %lu\n", i + 1);
-
-                        fclose(fw);
-
-                        free(func);
-                        free(args);
-
-                        FreeAssembler(&program);
-                        FreeLabels(labels, num_of_labels);
-
                         return ERROR_ASM;
                     }
                 }
@@ -314,35 +323,8 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 {
                     fprintf(fw, "%d\n", CMD_POPR);
 
-                    if (strcmp(args, "ax") == 0)
+                    if (PrintRegister(program, fw, func, args, i))
                     {
-                        fprintf(fw, "%d\n", AX);
-                    }
-                    else if (strcmp(args, "bx") == 0)
-                    {
-                        fprintf(fw, "%d\n", BX);
-                    }
-                    else if (strcmp(args, "cx") == 0)
-                    {
-                        fprintf(fw, "%d\n", CX);
-                    }
-                    else if (strcmp(args, "dx") == 0)
-                    {
-                        fprintf(fw, "%d\n", DX);
-                    }
-                    else
-                    {
-                        fprintf(fw, "ERROR\n");
-                        printf("ERROR IN LINE %lu\n", i + 1);
-
-                        fclose(fw);
-
-                        free(func);
-                        free(args);
-
-                        FreeAssembler(&program);
-                        FreeLabels(labels, num_of_labels);
-
                         return ERROR_ASM;
                     }
                 }
@@ -385,7 +367,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                     free(args);
 
                     FreeAssembler(&program);
-                    FreeLabels(labels, num_of_labels);
 
                     return ERROR_ASM;
                 }
@@ -401,7 +382,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
                 free(args);
 
                 FreeAssembler(&program);
-                FreeLabels(labels, num_of_labels);
 
                 return ERROR_ASM;
             }
@@ -414,7 +394,6 @@ Error_assembler Assembler(File_t program, Labels_t* labels, File_t code)
     fclose(fw);
 
     FreeAssembler(&program);
-    FreeLabels(labels, num_of_labels);
 
     printf("Compilation in OK\n");
 

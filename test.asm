@@ -1,5 +1,5 @@
 push 0
-popf ax
+popr ax
 
 NEXT:
 pushr ax
@@ -10,7 +10,7 @@ out
 pushr ax
 push 1
 add
-popf ax
+popr ax
 
 pushr ax
 push 10
